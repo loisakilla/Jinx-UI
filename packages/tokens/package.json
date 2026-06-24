@@ -1,0 +1,11 @@
+{
+  "name": "@jinx-ui/tokens",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "style": "./src/index.css",
+  "exports": {
+    ".": "./src/index.css",
+    "./tailwind": "./src/tailwind.css"
+  }
+}
