@@ -7,17 +7,15 @@ import { Specimen } from './Specimen';
 const COMPONENT_COUNT = Object.keys(JinxRuntime).filter((name) => name.startsWith('Jx')).length;
 
 type Theme = 'dark' | 'light';
-type StyleMode = 'brutal' | 'glass' | 'minimal';
+type StyleMode = 'brutal' | 'minimal';
 
 const STYLE_MODES: Array<{ value: StyleMode; label: string; radius: number }> = [
   { value: 'brutal', label: 'Brutal', radius: 4 },
-  { value: 'glass', label: 'Glass', radius: 14 },
   { value: 'minimal', label: 'Minimal', radius: 14 }
 ];
 
 const ACCENT_PRESETS: Array<{ color: string; label: string }> = [
   { color: '#c9a3ff', label: 'lavender' },
-  { color: '#d4ff3d', label: 'lime' },
   { color: '#79c8ff', label: 'sky' },
   { color: '#ff5470', label: 'coral' },
   { color: '#6bd97a', label: 'mint' }
@@ -248,7 +246,7 @@ function Hero({ onOpenTweaks }: { onOpenTweaks: () => void }) {
             A small library <br /> for <em>loud</em> interfaces.
           </h1>
           <div className="jx-hero-aside">
-            <p>{COMPONENT_COUNT} React components, three style modes, one CSS namespace. Built TSX-first, animated with framer-motion.</p>
+            <p>{COMPONENT_COUNT} React components, two style modes, one CSS namespace. Built TSX-first, animated with framer-motion.</p>
             <div className="jx-hero-aside-actions">
               <JxButton variant="primary" onClick={onOpenTweaks}>Open Tweaks</JxButton>
               <a href="#specimen">
@@ -267,9 +265,9 @@ function Hero({ onOpenTweaks }: { onOpenTweaks: () => void }) {
           </div>
           <div>
             <div className="jx-hero-meta-num">
-              3<small>modes</small>
+              2<small>modes</small>
             </div>
-            <div className="jx-hero-meta-label">Brutal · Glass · Minimal</div>
+            <div className="jx-hero-meta-label">Brutal · Minimal</div>
             <div className="jx-hero-meta-sub">Switch live via Tweaks.</div>
           </div>
           <div>
@@ -330,16 +328,15 @@ function Install() {
         <div className="jx-section-head">
           <div className="jx-section-label" data-num="C.">Install</div>
           <h2>
-            Not on npm. <em>Clone</em> it, or take the CSS.
+            <em>Install</em> the two you need.
           </h2>
           <p>
-            The three packages are built and ready to publish, but they are not on npm yet. Consume them from this repository as a clone or a git submodule; the CSS layer works on its own, without the React runtime.
+            Three packages on npm. Take the CSS layer on its own, the React runtime on top of it, or both; the tokens come in through core and ship separately for anyone who wants the variables alone.
           </p>
         </div>
         <div style={{ display: 'grid', gap: 16, maxWidth: 640 }}>
           <pre className="jx-snippet jx-snippet--block" style={{ margin: 0 }}>
-            <span className="jx-snippet-code">{`git clone https://github.com/loisakilla/Jinx-UI.git
-cd Jinx-UI && npm install && npm run dev`}</span>
+            <span className="jx-snippet-code">{`npm install @jinx-ui/core @jinx-ui/react`}</span>
           </pre>
           <pre className="jx-snippet jx-snippet--block" style={{ margin: 0 }}>
             <span className="jx-snippet-code">{`import '@jinx-ui/core';

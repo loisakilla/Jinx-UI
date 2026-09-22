@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useJxPortal } from '../hooks/usePortal';
 import { cn } from '../utils/cn';
 
 export type JxToastVariant = 'default' | 'success' | 'warning' | 'danger';
@@ -87,7 +88,8 @@ const positions: Record<NonNullable<JxToastViewportProps['position']>, React.CSS
 };
 
 export function JxToastViewport({ items, onDismiss, position = 'bottom-left' }: JxToastViewportProps) {
-  return (
+  const portal = useJxPortal();
+  return portal(
     <div
       id="toast-stack"
       aria-live="polite"

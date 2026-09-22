@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useControllableState } from '../hooks/useControllableState';
 import { useDialogA11y } from '../hooks/useDialogA11y';
+import { useJxPortal } from '../hooks/usePortal';
 import { cn } from '../utils/cn';
 
 export type JxDrawerSide = 'right' | 'left';
@@ -30,6 +31,7 @@ export function JxDrawer({
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const portal = useJxPortal();
 
   useDialogA11y({
     isOpen,
@@ -40,11 +42,11 @@ export function JxDrawer({
 
   const sideX = side === 'right' ? 40 : -40;
 
-  return (
+  return portal(
     <AnimatePresence>
       {isOpen ? (
         <motion.div
-          className="jx-modal-overlay is-open"
+          className="jx-modal-overlay jx-modal-overlay--drawer is-open"
           style={{ justifyContent: side === 'right' ? 'flex-end' : 'flex-start', alignItems: 'stretch' }}
           onClick={() => setOpen(false)}
           initial={{ opacity: 0 }}
@@ -57,13 +59,13 @@ export function JxDrawer({
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className={cn('jx-drawer', className)}
+            className={cn('jx-drawer', `jx-drawer--${side}`, className)}
             onClick={(event) => event.stopPropagation()}
             initial={{ opacity: 0, x: sideX }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: sideX }}
             transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
-            style={{ height: '100%', maxHeight: '100vh' }}
+
           >
             <div className="jx-drawer-head">
               <span id={titleId} className="jx-drawer-title">

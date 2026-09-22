@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useControllableState } from '../hooks/useControllableState';
 import { cn } from '../utils/cn';
@@ -19,6 +19,7 @@ export type JxComboboxProps = {
   emptyText?: string;
   className?: string;
   ariaLabel?: string;
+  clearLabel?: string;
 };
 
 export function JxCombobox({
@@ -29,13 +30,15 @@ export function JxCombobox({
   placeholder = 'Search...',
   emptyText = 'No matches. Try fewer letters.',
   className,
-  ariaLabel
+  ariaLabel,
+  clearLabel = 'Clear search'
 }: JxComboboxProps) {
   const [selected, setSelected] = useControllableState(value, defaultValue ?? options[0]?.value ?? '', onValueChange);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const listId = useId();
   const inputId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const filtered = useMemo(() => {
     const normalized = query.toLowerCase().trim();
@@ -75,6 +78,7 @@ export function JxCombobox({
   return (
     <div className={cn('jx-combobox', className)}>
       <input
+        ref={inputRef}
         id={inputId}
         className="jx-combobox-input"
         placeholder={placeholder}
@@ -91,6 +95,22 @@ export function JxCombobox({
         aria-activedescendant={activeId}
         aria-label={ariaLabel}
       />
+      {query ? (
+        <button
+          type="button"
+          className="jx-combobox-clear"
+          aria-label={clearLabel}
+          onClick={() => {
+            setQuery('');
+            setActiveIndex(0);
+            inputRef.current?.focus();
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      ) : null}
       <div id={listId} className="jx-combobox-list" role="listbox">
         {filtered.map((option, index) => {
           const isActive = index === activeIndex;

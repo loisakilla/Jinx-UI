@@ -1,17 +1,23 @@
 # Jinx UI
 
-A small React component kit for loud interfaces: CSS-first, one `jx-*` namespace, three style modes, a TSX runtime animated with framer-motion.
+A small React component kit for loud interfaces: CSS-first, one `jx-*` namespace, two style modes, a TSX runtime animated with framer-motion.
 
 Live specimen: **https://jinx-ui.vercel.app**
 
-- 38 components and 3 hooks in `@jinx-ui/react`, all rendered on one page.
-- Three style modes — `brutal` (default, radius `4px`), `glass` (`14px`), `minimal` (`14px`) — switched at runtime through `data-style` on the document element.
+- 40 components and 3 hooks in `@jinx-ui/react`, all rendered on one page.
+- Two style modes — `brutal` (default, radius `4px`) and `minimal` (`14px`) — switched at runtime through `data-style` on the document element.
 - Light and dark themes through `data-theme`; every colour, radius, shadow and font comes from a `--jx-*` token.
 - No `innerHTML`, no `dangerouslySetInnerHTML`, no global stores: every stateful primitive takes `value` / `defaultValue` / `onValueChange`.
 
-## Not on npm
+## Install
 
-The three packages are built and ready to publish, but they are not on npm yet, so they are consumed straight from this repository — as a clone, or as a git submodule. That is how [Context Lab](https://github.com/loisakilla/context-lab) uses them.
+```bash
+npm install @jinx-ui/core @jinx-ui/react
+```
+
+`@jinx-ui/core` is the CSS layer and `@jinx-ui/react` the TSX runtime over it. Take either on its own: the CSS works without React, and the runtime writes nothing but `jx-*` class names. `@jinx-ui/tokens` comes in through `core`, and is published separately for anyone who wants the variables alone.
+
+To work on the kit itself, clone it:
 
 ```bash
 git clone https://github.com/loisakilla/Jinx-UI.git
@@ -35,7 +41,7 @@ import { JxButton, JxModal } from '@jinx-ui/react';
 | --- | --- |
 | `packages/tokens` | The only place `--jx-*` variables are declared: themes, style modes, radii, fonts, easing. |
 | `packages/core` | `jx-*` CSS: `index.css` (everything), `./app` (components and page styles), `./skins` (style modes). |
-| `packages/react` | The TSX runtime: 38 components and 3 hooks, re-exported from `src/runtime.ts` behind a `'use client'` boundary. |
+| `packages/react` | The TSX runtime: 40 components and 3 hooks, re-exported from `src/runtime.ts` behind a `'use client'` boundary. |
 
 ## Repository
 
@@ -62,7 +68,7 @@ CI runs `test`, `typecheck` and `build` on every push and pull request.
 
 1. `npm run dev`, open `http://127.0.0.1:5173/`.
 2. The first render is `brutal`, radius `4px`.
-3. Switch `Brutal`, `Glass`, `Minimal` in Tweaks; radii become `4px`, `14px`, `14px`.
+3. Switch `Brutal` and `Minimal` in Tweaks; radii become `4px` and `14px`.
 4. Switch the theme; status colours stay readable on both.
 5. Open and close Tweaks with `Escape`; because the panel is non-modal (`aria-modal="false"`), `Tab` keeps moving through the page.
 6. Walk the specimen with the keyboard: select, combobox, tabs, calendar, modal and drawer all have to be reachable and closeable.

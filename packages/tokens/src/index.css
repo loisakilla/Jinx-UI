@@ -16,8 +16,6 @@
   --jx-accent: #c9a3ff;
   --jx-accent-soft: rgba(201, 163, 255, 0.14);
   --jx-accent-ink: #0c0a14;
-  --jx-accent-2: #d4ff3d;
-  --jx-accent-2-ink: #0c0a14;
   --jx-success: #6bd97a;
   --jx-warning: #ffb547;
   --jx-danger: #ff5470;
@@ -42,9 +40,7 @@
   --jx-text-4: #b4abc0;
   --jx-accent: #6f3fcc;
   --jx-accent-soft: rgba(111, 63, 204, 0.12);
-  --jx-accent-ink: #fff;
-  --jx-accent-2: #859e00;
-  --jx-accent-2-ink: #14180a;
+  --jx-accent-ink: #ffffff;
   --jx-success: #176034;
   --jx-warning: #7d4f00;
   --jx-danger: #b01834;
@@ -65,7 +61,6 @@
   --jx-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-style="glass"],
 [data-style="minimal"] {
   --jx-r-xs: 14px;
   --jx-r-sm: 14px;
@@ -74,7 +69,6 @@
   --jx-r-xl: 14px;
   --jx-r-pill: 14px;
 }
-
 [data-style="brutal"] {
   --jx-r-xs: 4px;
   --jx-r-sm: 4px;
@@ -82,43 +76,11 @@
   --jx-r-lg: 4px;
   --jx-r-xl: 4px;
   --jx-r-pill: 4px;
-  --jx-bg: #f5f2e9;
-  --jx-bg-2: #ece8dc;
-  --jx-surface: #ffffff;
-  --jx-surface-2: #f0ebdb;
-  --jx-surface-3: #ddd6c4;
-  --jx-border: #1a1726;
-  --jx-border-2: #1a1726;
-  --jx-rule: #1a1726;
-  --jx-text: #1a1726;
-  --jx-text-2: #1a1726;
-  --jx-text-3: #6e6386;
-  --jx-text-4: #b4abc0;
-  --jx-accent: #1a1726;
-  --jx-accent-soft: rgba(26, 23, 38, 0.08);
-  --jx-accent-ink: #f5ff3d;
-  --jx-shadow-sm: 4px 4px 0 #1a1726;
-  --jx-shadow: 6px 6px 0 #1a1726;
-  --jx-shadow-lg: 10px 10px 0 #1a1726;
-}
-
-[data-style="brutal"][data-theme="dark"] {
-  --jx-bg: #1a1726;
-  --jx-bg-2: #0c0a14;
-  --jx-surface: #1a1726;
-  --jx-surface-2: #0c0a14;
-  --jx-surface-3: #2a2438;
-  --jx-border: #f5ff3d;
-  --jx-border-2: #f5ff3d;
-  --jx-rule: #f5ff3d;
-  --jx-text: #f5ff3d;
-  --jx-text-2: #f5ff3d;
-  --jx-text-3: #a59cb8;
-  --jx-text-4: #463e5a;
-  --jx-accent: #f5ff3d;
-  --jx-accent-soft: rgba(245, 255, 61, 0.14);
-  --jx-accent-ink: #1a1726;
-  --jx-shadow-sm: 4px 4px 0 #f5ff3d;
-  --jx-shadow: 6px 6px 0 #f5ff3d;
-  --jx-shadow-lg: 10px 10px 0 #f5ff3d;
+  --jx-edge: color-mix(in oklab, var(--jx-text) 82%, var(--jx-bg));
+  --jx-border: var(--jx-edge);
+  --jx-border-2: var(--jx-edge);
+  --jx-rule: var(--jx-edge);
+  --jx-shadow-sm: 4px 4px 0 var(--jx-edge);
+  --jx-shadow: 6px 6px 0 var(--jx-edge);
+  --jx-shadow-lg: 10px 10px 0 var(--jx-edge);
 }

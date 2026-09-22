@@ -1,7 +1,7 @@
 {
   "name": "@jinx-ui/core",
   "version": "0.1.0",
-  "description": "The jx-* CSS layer of Jinx UI: component styles, three style modes and the tokens they read.",
+  "description": "The jx-* CSS layer of Jinx UI: component styles, two style modes and the tokens they read.",
   "keywords": [
     "css",
     "design-system",

@@ -2,213 +2,12 @@
    JINX UI — SKINS
    Style modes toggled by [data-style] on <html>.
    Default base style is "minimal" (already in jinx-app.css).
-   This file adds GLASS and BRUTAL overrides.
+   This file adds the BRUTAL overrides. Variables live in @jinx-ui/tokens.
    ════════════════════════════════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════════════════════════════
-   GLASS — liquid glass / frosted aesthetic
-   ══════════════════════════════════════════════════════════════════ */
-[data-style="glass"] {
-  --jx-r-xs:   14px;
-  --jx-r-sm:   14px;
-  --jx-r:      14px;
-  --jx-r-lg:   14px;
-  --jx-r-xl:   14px;
-  --jx-r-pill: 14px;
-}
-
-[data-style="minimal"] {
-  --jx-r-xs:   14px;
-  --jx-r-sm:   14px;
-  --jx-r:      14px;
-  --jx-r-lg:   14px;
-  --jx-r-xl:   14px;
-  --jx-r-pill: 14px;
-}
-
-/* show atmospheric orbs only in glass mode */
-[data-style="glass"] .jx-atm { display: block; }
-.jx-atm { display: none; }
-
-/* glassy surfaces */
-[data-style="glass"] .jx-card,
-[data-style="glass"] .jx-codeblock,
-[data-style="glass"] .jx-table,
-[data-style="glass"] .jx-modal-frame,
-[data-style="glass"] .jx-drawer,
-[data-style="glass"] .jx-calendar,
-[data-style="glass"] .jx-menu-panel,
-[data-style="glass"] .jx-combobox,
-[data-style="glass"] .jx-compose-frame,
-[data-style="glass"] .jx-swatch,
-[data-style="glass"] #jx-tweaks,
-[data-style="glass"] .jx-select-menu {
-  background: color-mix(in oklab, var(--jx-surface) 60%, transparent);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid color-mix(in oklab, var(--jx-text) 8%, transparent);
-  box-shadow:
-    inset 0 1px 0 0 color-mix(in oklab, var(--jx-text) 8%, transparent),
-    var(--jx-shadow);
-}
-
-[data-style="glass"] .jx-input,
-[data-style="glass"] .jx-textarea,
-[data-style="glass"] .jx-select-trigger,
-[data-style="glass"] .jx-input-group,
-[data-style="glass"] .jx-taginput {
-  background: color-mix(in oklab, var(--jx-surface) 50%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-color: color-mix(in oklab, var(--jx-text) 12%, transparent);
-}
-
-[data-style="glass"] .jx-tabs,
-[data-style="glass"] .jx-toggle-group {
-  background: color-mix(in oklab, var(--jx-surface) 50%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-color: color-mix(in oklab, var(--jx-text) 8%, transparent);
-}
-
-[data-style="glass"] .jx-tabs--underline .jx-tab[aria-selected="true"] {
-  background: transparent;
-  box-shadow: none;
-}
-
-[data-style="glass"] .jx-tab[aria-selected="true"] {
-  background: color-mix(in oklab, var(--jx-text) 6%, transparent);
-  box-shadow:
-    inset 0 1px 0 0 color-mix(in oklab, var(--jx-text) 12%, transparent),
-    inset 0 0 0 1px color-mix(in oklab, var(--jx-text) 8%, transparent);
-}
-
-[data-style="glass"] .jx-btn--secondary,
-[data-style="glass"] .jx-btn--ghost:hover,
-[data-style="glass"] .jx-chip,
-[data-style="glass"] .jx-badge,
-[data-style="glass"] .jx-kbd {
-  background: color-mix(in oklab, var(--jx-surface) 45%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-color: color-mix(in oklab, var(--jx-text) 10%, transparent);
-}
-
-[data-style="glass"] .jx-badge--solid,
-[data-style="glass"] .jx-badge--alt {
-  background: var(--jx-accent);
-  color: var(--jx-accent-ink);
-  border-color: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-[data-style="glass"] .jx-badge--alt {
-  background: var(--jx-accent-2);
-  color: var(--jx-accent-2-ink);
-}
-
-[data-style="glass"] .jx-chip--active {
-  background: color-mix(in oklab, var(--jx-accent) 13%, transparent);
-  color: var(--jx-accent);
-  border-color: color-mix(in oklab, var(--jx-accent) 45%, transparent);
-}
-
-[data-style="glass"] .jx-btn--primary {
-  background: linear-gradient(180deg,
-    color-mix(in oklab, var(--jx-accent) 100%, white 10%),
-    var(--jx-accent));
-  box-shadow:
-    inset 0 1px 0 0 rgba(255,255,255,.25),
-    inset 0 -1px 0 0 rgba(0,0,0,.15),
-    0 8px 24px -8px var(--jx-accent),
-    0 0 0 1px color-mix(in oklab, var(--jx-accent) 40%, transparent);
-}
-
-[data-style="glass"] .jx-nav {
-  background: color-mix(in oklab, var(--jx-bg) 50%, transparent);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border-bottom: 1px solid color-mix(in oklab, var(--jx-text) 6%, transparent);
-}
-
-[data-style="glass"] .jx-toast {
-  background: color-mix(in oklab, var(--jx-surface) 70%, transparent);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-color: color-mix(in oklab, var(--jx-text) 10%, transparent);
-}
-
-/* highlight on glass cards */
-[data-style="glass"] .jx-card::before {
-  content: ""; position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
-  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--jx-text) 24%, transparent), transparent);
-  pointer-events: none;
-  border-radius: inherit;
-}
-[data-style="glass"] .jx-card { position: relative; }
-
-/* glass scrollbar */
-[data-style="glass"] ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--jx-text) 10%, transparent);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
 
 /* ══════════════════════════════════════════════════════════════════
    BRUTAL — mono everywhere, sharp corners, hard edges
    ══════════════════════════════════════════════════════════════════ */
-[data-style="brutal"] {
-  --jx-r-xs:   4px;
-  --jx-r-sm:   4px;
-  --jx-r:      4px;
-  --jx-r-lg:   4px;
-  --jx-r-xl:   4px;
-  --jx-r-pill: 4px;
-
-  --jx-bg:           #f5f2e9;
-  --jx-bg-2:         #ece8dc;
-  --jx-surface:      #ffffff;
-  --jx-surface-2:    #f0ebdb;
-  --jx-surface-3:    #ddd6c4;
-  --jx-border:       #1a1726;
-  --jx-border-2:     #1a1726;
-  --jx-rule:         #1a1726;
-  --jx-text:         #1a1726;
-  --jx-text-2:       #1a1726;
-  --jx-text-3:       #6e6386;
-  --jx-text-4:       #b4abc0;
-  --jx-accent:       #1a1726;
-  --jx-accent-soft:  rgba(26, 23, 38, 0.08);
-  --jx-accent-ink:   #f5ff3d;
-
-  --jx-shadow-sm:    4px 4px 0 #1a1726;
-  --jx-shadow:       6px 6px 0 #1a1726;
-  --jx-shadow-lg:    10px 10px 0 #1a1726;
-}
-
-[data-style="brutal"][data-theme="dark"] {
-  --jx-bg:           #1a1726;
-  --jx-bg-2:         #0c0a14;
-  --jx-surface:      #1a1726;
-  --jx-surface-2:    #0c0a14;
-  --jx-surface-3:    #2a2438;
-  --jx-border:       #f5ff3d;
-  --jx-border-2:     #f5ff3d;
-  --jx-rule:         #f5ff3d;
-  --jx-text:         #f5ff3d;
-  --jx-text-2:       #f5ff3d;
-  --jx-text-3:       #a59cb8;
-  --jx-text-4:       #463e5a;
-  --jx-accent:       #f5ff3d;
-  --jx-accent-soft:  rgba(245, 255, 61, 0.14);
-  --jx-accent-ink:   #1a1726;
-
-  --jx-shadow-sm:    4px 4px 0 #f5ff3d;
-  --jx-shadow:       6px 6px 0 #f5ff3d;
-  --jx-shadow-lg:    10px 10px 0 #f5ff3d;
-}
-
 [data-style="brutal"] {
   font-family: var(--jx-font-mono);
 }
@@ -241,7 +40,6 @@
 [data-style="brutal"] .jx-codeblock,
 [data-style="brutal"] .jx-table,
 [data-style="brutal"] .jx-modal-frame,
-[data-style="brutal"] .jx-drawer,
 [data-style="brutal"] .jx-calendar,
 [data-style="brutal"] .jx-menu-panel,
 [data-style="brutal"] .jx-combobox,
@@ -252,6 +50,7 @@
 [data-style="brutal"] .jx-select-trigger,
 [data-style="brutal"] .jx-input-group,
 [data-style="brutal"] .jx-taginput,
+[data-style="brutal"] .jx-snippet,
 [data-style="brutal"] .jx-tabs,
 [data-style="brutal"] .jx-toggle-group,
 [data-style="brutal"] .jx-toast,
@@ -262,6 +61,14 @@
   backdrop-filter: none; -webkit-backdrop-filter: none;
   box-shadow: var(--jx-shadow-sm);
 }
+
+[data-style="brutal"] .jx-drawer {
+  background: var(--jx-surface);
+  border: 2px solid var(--jx-border);
+  box-shadow: none;
+}
+[data-style="brutal"] .jx-drawer--right { border-right: 0; }
+[data-style="brutal"] .jx-drawer--left { border-left: 0; }
 
 [data-style="brutal"] .jx-btn {
   border: 2px solid var(--jx-border);
@@ -281,15 +88,22 @@
 [data-style="brutal"] .jx-btn--primary {
   background: var(--jx-accent); color: var(--jx-accent-ink); border-color: var(--jx-border);
 }
-[data-style="brutal"] .jx-btn--alt {
-  background: var(--jx-accent); color: var(--jx-accent-ink);
-}
 [data-style="brutal"] .jx-btn--secondary {
   background: var(--jx-surface);
+}
+[data-style="brutal"] .jx-btn--ghost {
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-style="brutal"] .jx-btn--ghost:hover {
+  transform: none;
+  box-shadow: none;
+  background: var(--jx-surface-3);
 }
 
 [data-style="brutal"] .jx-badge,
 [data-style="brutal"] .jx-chip,
+[data-style="brutal"] .jx-snip,
 [data-style="brutal"] .jx-kbd {
   border: 1.5px solid var(--jx-border);
   background: var(--jx-surface);
@@ -297,8 +111,7 @@
   box-shadow: none;
 }
 [data-style="brutal"] .jx-badge--solid,
-[data-style="brutal"] .jx-badge--accent,
-[data-style="brutal"] .jx-badge--alt {
+[data-style="brutal"] .jx-badge--accent {
   background: var(--jx-accent); color: var(--jx-accent-ink);
 }
 
@@ -418,4 +231,7 @@
   background: var(--jx-surface);
 }
 
-[data-style="brutal"] .jx-toast::after { display: none; }
+[data-style="brutal"] .jx-toast::after {
+  height: 4px;
+  background: var(--jx-accent);
+}
