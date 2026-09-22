@@ -98,3 +98,35 @@ The project was corrected to use the supplied Claude files as the source of trut
 - `npm run typecheck`
 - `npm run build`
 - Browser screenshot and manual mode switch check at `http://127.0.0.1:5173/`
+
+## 2026-09-22
+
+### Defects found by rendering every component
+
+- Added `smoke.test.tsx`: renders all exported components with a spy on React warnings. It immediately caught two invented props in the test itself and five real defects.
+- `JxToggle` positioned its indicator against the nearest positioned ancestor, so it stretched across the page; the button got `position: relative`.
+- Both segmented indicators painted `--jx-surface` over a button a skin had already filled with the accent colour, hiding the active label. The colour moved into CSS where a skin can override it.
+- `JxPagination` trusted the page number it was given: a page past the end left every button unhighlighted and kept Next enabled on an empty collection. The page is clamped now.
+- `useDialogA11y` trapped focus but let the page behind a modal scroll; it locks body overflow and restores the previous value, nested dialogs included.
+- `useJxToastQueue` left dismiss timers running after unmount; they are cleared on dismiss, clear and unmount.
+- The contract test asserted that `dist` does not exist, which holds only until the first build. It now asserts what it meant: no build output is tracked by git.
+
+### Licensing and entry points
+
+- Added the MIT license and `license` fields to the root and the three packages.
+- Renamed the `@jinx-ui/core` subpath `./tokens` to `./app`, which is what it actually exports.
+
+### Theme defects found by dressing another project in the library
+
+Context Lab switched its own interface to `brutal` light, which surfaced three problems:
+
+- The token palette lived in two files — `packages/tokens/src/index.css` and a full copy at the top of `jinx-app.css`, imported later. Every theme value in the tokens package was silently overridden, the light theme rendered dark-tuned status colours, and generated documentation described values the runtime never used. The copy is gone; the contract test fails if `jinx-app.css` declares any `--jx-*`.
+- Status colours had no light-theme values: `--jx-success` sat at 1.9:1 on white. The light theme declares its own, and the test computes the contrast instead of trusting the hex.
+- `.jx-chip--active` was overridden by the `brutal` and `glass` skins, so a selected chip looked unselected. Both skins carry an active state, and the test derives the list of skins from the stylesheet.
+
+### Documentation caught up with the code
+
+- README described `react-demo.html`, `workspace-brutal.html`, `public/jinx-*.css` and `src/jinx-*`, all removed long ago, and pointed at a source file on a personal machine. Rewritten around what the repository actually contains, with the live specimen link.
+- The install block on the site offered `npm i @jinx-ui/core @jinx-ui/react` while the packages are workspace-private and absent from npm. It now says so and shows the clone.
+- The hero claimed 25 components and `~30kb gz`; the runtime exports 38 and the size was never measured. The count is derived from the runtime at render time, and the contract test checks that the README and the showcase agree with it.
+- `docs/testing.md` described a single contract layer and a build entry that no longer exists; `docs/components.md` described "core 8" and a deleted runtime script; `docs/design-contract.md` pointed at prototype files on a personal machine.

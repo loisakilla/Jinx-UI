@@ -26,6 +26,7 @@ import {
   JxSelect,
   JxSkeleton,
   JxSlider,
+  JxSnip,
   JxSnippet,
   JxSpinner,
   JxStepper,
@@ -168,10 +169,10 @@ export function Specimen() {
         <div className="jx-section-head">
           <div className="jx-section-label" data-num="A.">Specimen</div>
           <h2>
-            All <em>25</em> components — built with the same kit.
+            <em>25</em> rows — every component in the kit.
           </h2>
           <p>
-            Each row demonstrates one primitive (or pair) shipped as React TSX. Every visual is driven by the `jx-*` namespace from `@jinx-ui/core`.
+            Each row demonstrates one primitive or a pair, shipped as React TSX. Every visual is driven by the jx-* namespace from @jinx-ui/core.
           </p>
         </div>
 
@@ -557,15 +558,18 @@ export function Specimen() {
             <JxDivider label="or continue with" />
           </Row>
 
-          <Row tag="A · 25" title={<><em>Snippet</em></>} meta="inline · block · copy" bodyColumn>
+          <Row tag="A · 25" title={<><em>Snippet</em> · Snip</>} meta="inline · block · copy" bodyColumn>
             <div className="row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <JxSnippet prompt="$" copyText="npm i @jinx/ui">npm i @jinx/ui</JxSnippet>
-              <JxSnippet prompt="›" tone="alt" copyText="pnpm add @jinx/ui">pnpm add @jinx/ui</JxSnippet>
-              <JxSnippet prompt="#" tone="info" copyText="bunx --bun create-jinx">bunx --bun create-jinx</JxSnippet>
+              <JxSnippet prompt="$" copyText="git clone https://github.com/loisakilla/Jinx-UI.git">git clone jinx-ui</JxSnippet>
+              <JxSnippet prompt="›" tone="alt" copyText="npm install">npm install</JxSnippet>
+              <JxSnippet prompt="#" tone="info" copyText="npm run dev">npm run dev</JxSnippet>
             </div>
-            <JxSnippet block copyText="import { Button, Card } from '@jinx/ui';" style={{ width: '100%', maxWidth: 480 }}>
-              {`import { Button, Card } from '@jinx/ui';\nconst App = () => <Button variant="primary">Ship</Button>;`}
+            <JxSnippet block copyText="import '@jinx-ui/core';" style={{ width: '100%', maxWidth: 480 }}>
+              {`import '@jinx-ui/core';\nimport { JxButton } from '@jinx-ui/react';\n\nconst App = () => <JxButton variant="primary">Ship</JxButton>;`}
             </JxSnippet>
+            <p style={{ margin: 0 }}>
+              Inline code inside a sentence uses <JxSnip>JxSnip</JxSnip>, which styles the text without the copy affordance.
+            </p>
           </Row>
         </div>
       </div>

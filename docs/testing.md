@@ -2,44 +2,40 @@
 
 ## Stack
 
-- Vitest
-- TypeScript
-- Vite
-- GitHub Actions CI (`.github/workflows/ci.yml`)
+- Vitest 4 with `environment: 'node'` as the default.
+- jsdom plus Testing Library for behaviour tests; each such file opts in with a `// @vitest-environment jsdom` docblock.
+- TypeScript and Vite for the build gate.
+- GitHub Actions CI (`.github/workflows/ci.yml`) runs `test`, `typecheck` and `build` on push and pull request.
 
-The stack now has two test layers:
+## Two layers
 
-- Static contract tests for showcase and package boundaries.
-- React runtime behavior tests (`jsdom` + Testing Library) for interactive primitives.
-- Dialog a11y tests cover `Escape`, focus trap (`Tab` loop), and opener focus restore.
-- Dialog edge-case tests cover nested `Escape` handling (`preventDefault`) and modal `aria-describedby`.
-- Contract tests use structural JSDOM assertions for key DOM/ARIA invariants instead of brittle attribute-order string matching.
-- Contract tests also verify runtime sync between inline showcase scripts (`index.html`) and `src/jinx-app.js`.
+**Contract tests** — `src/design-contract.test.ts`, node environment. They read the repository as text and fail when it drifts from what the docs promise: the mounted TSX shell, the default `brutal` mode and the radius contract per style mode, one entry that ships tokens with skins, the full runtime export list, the component count claimed on the page and in the README, status-colour contrast on the light theme, an active state for chips in every skin, tokens declared in one file only, and the absence of files and claims that were removed.
 
-## TDD Rule
+**Behaviour tests** — `packages/react/src/components/*.test.tsx`, jsdom environment:
 
-For each design contract change:
+- `smoke.test.tsx` renders every exported component and fails on any React warning.
+- `react-runtime.test.tsx` covers keyboard and ARIA flows: dialog `Escape`, focus trap, focus restore to the opener, select and combobox navigation, toast queue.
+- `regressions.test.tsx` pins bugs that were fixed once and must not come back.
+
+## Rule for contract changes
 
 1. Add or update a failing assertion in `src/design-contract.test.ts`.
-2. Apply the smallest HTML/CSS/JS change.
-3. Run `npm run test`.
-4. Run `npm run typecheck`.
-5. Run `npm run build`.
-6. Optional shortcut: `npm run verify`.
-7. Browser-check the rendered page.
+2. Make the smallest change that satisfies it.
+3. `npm run test`, `npm run typecheck`, `npm run build`, or `npm run verify` for all three.
+4. Check the rendered page in the browser.
 
-## Current Coverage
+A claim that lives only in prose rots. When the docs or the showcase state a number or a promise — the component count, the radius per mode, a contrast floor — the contract test should derive it from the code instead of repeating it.
 
-- `index.html` is the transferred static showcase shell.
-- The specimen inventory remains 25 rows.
-- Default mode is `brutal`.
-- `brutal` radius is `4px`.
-- `glass` and `minimal` radius is `14px`.
-- Source artifacts are present in `src/jinx-*`.
-- Download artifacts are present in `public/`.
-- Package split exists in `packages/tokens`, `packages/core`, `packages/react`.
-- `packages/core` default entry stays primitive-focused; showcase CSS is opt-in.
-- Vite build keeps both `index.html` and `react-demo.html` entries.
-- CI runs `test`, `typecheck`, and `build` on push and pull request.
-- Old React approximation files are absent.
-- Prototype host messaging, Cloudflare email decode, and unsafe HTML insertion APIs are not shipped.
+## What the contract currently pins
+
+- The entry html is a thin shell that mounts `src/main.tsx`; no inline `<style>`, no showcase markup in html.
+- Default style mode is `brutal`; radii are `4px` for brutal and `14px` for glass and minimal.
+- `@jinx-ui/core` imports tokens, app CSS and skins from one entry.
+- `--jx-*` variables are declared in `packages/tokens` only.
+- Light-theme `success`, `warning`, `danger` and `info` reach 4.5:1 on white; the test computes the contrast.
+- Every skin that restyles `.jx-chip` also restyles `.jx-chip--active`.
+- The runtime exports the full component and hook list.
+- The specimen keeps 25 rows.
+- The showcase and the README state the same component count as the runtime exports.
+- Removed artifacts stay removed: `react-demo.html`, `workspace-brutal.html`, `public/jinx-*.css`, `src/jinx-*`, the old React approximation, `dist` in git.
+- Prototype host messaging, Cloudflare email decode and unsafe HTML insertion are not shipped.

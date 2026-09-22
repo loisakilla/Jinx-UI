@@ -22,7 +22,16 @@ const corePackageJson = readProjectFile('packages/core/package.json');
 const reactPackageJson = readProjectFile('packages/react/package.json');
 const reactRuntime = readProjectFile('packages/react/src/runtime.ts');
 const reactIndex = readProjectFile('packages/react/src/index.ts');
+const tokensPackageJson = readProjectFile('packages/tokens/package.json');
 const rootPackageJson = readProjectFile('package.json');
+const readme = readProjectFile('README.md');
+const docFiles = {
+  'README.md': readme,
+  'docs/testing.md': readProjectFile('docs/testing.md'),
+  'docs/components.md': readProjectFile('docs/components.md'),
+  'docs/design-contract.md': readProjectFile('docs/design-contract.md'),
+  'docs/security.md': readProjectFile('docs/security.md'),
+};
 const viteConfig = readProjectFile('vite.config.ts');
 const ciWorkflow = readProjectFile('.github/workflows/ci.yml');
 
@@ -68,7 +77,9 @@ const RUNTIME_EXPORTS = [
   'JxCalendar',
   'JxDivider',
   'JxSnippet',
-  'JxSnip'
+  'JxSnip',
+  'useDialogA11y',
+  'useControllableState'
 ];
 
 describe('Jinx UI design contract', () => {
@@ -95,6 +106,44 @@ describe('Jinx UI design contract', () => {
     expect(coreSkins).toContain('[data-style="glass"]');
     expect(coreSkins).toContain('[data-style="minimal"]');
     expect(tailwindCss).toContain('--radius-jx:');
+  });
+
+  it('states the same component count in the runtime, the showcase and the README', () => {
+    const components = RUNTIME_EXPORTS.filter((name) => name.startsWith('Jx')).length;
+    const hooks = RUNTIME_EXPORTS.filter((name) => name.startsWith('use')).length;
+
+    expect(showcaseApp).toContain("Object.keys(JinxRuntime).filter((name) => name.startsWith('Jx')).length");
+    expect(showcaseApp).toContain('{COMPONENT_COUNT}<small>components</small>');
+    expect(showcaseApp).not.toMatch(/\d+ React components/);
+
+    const claimed = readme.match(/(\d+) components and (\d+) hooks/);
+    expect(claimed, 'README should state the component and hook count').toBeTruthy();
+    expect(Number(claimed?.[1])).toBe(components);
+    expect(Number(claimed?.[2])).toBe(hooks);
+  });
+
+  it('renders every exported component somewhere in the specimen', () => {
+    RUNTIME_EXPORTS.filter((name) => name.startsWith('Jx')).forEach((name) => {
+      expect(showcaseSpecimen.includes(`<${name}`), `${name} is exported but never rendered in the specimen`).toBe(true);
+    });
+  });
+
+  it('does not promise an npm install while the packages are private', () => {
+    [corePackageJson, reactPackageJson, tokensPackageJson].forEach((manifest) => {
+      expect(JSON.parse(manifest).private, 'a published package would need this test rewritten').toBe(true);
+    });
+    expect(showcaseApp).not.toMatch(/npm i(nstall)?\s+@jinx-ui/);
+    expect(readme).not.toMatch(/npm i(nstall)?\s+@jinx-ui/);
+    expect(readme).toContain('https://jinx-ui.vercel.app');
+  });
+
+  it('keeps docs free of personal paths and the README free of removed files', () => {
+    Object.entries(docFiles).forEach(([name, content]) => {
+      expect(content.includes('C:\\'), `${name} points at a path on someone's machine`).toBe(false);
+    });
+    ['react-demo.html', 'workspace-brutal.html', 'jinx-preset.css', 'jinx-tailwind.css', 'src/jinx-app.js', 'core 8'].forEach((removed) => {
+      expect(readme.includes(removed), `README still describes ${removed}`).toBe(false);
+    });
   });
 
   it('declares design tokens in one place only', () => {
@@ -153,8 +202,6 @@ describe('Jinx UI design contract', () => {
       const exported = new RegExp(`export \\{[^}]*\\b${name}\\b[^}]*\\}`).test(reactRuntime);
       expect(exported, `runtime should export ${name}`).toBe(true);
     });
-    expect(reactRuntime).toContain("export { useDialogA11y }");
-    expect(reactRuntime).toContain("export { useControllableState }");
   });
 
   it('renders the 25-component specimen and the full showcase sections from TSX', () => {

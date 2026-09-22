@@ -1,34 +1,32 @@
 # Component Notes
 
-## Transferred Surface
+## Surface
 
-The visible component inventory is the one in the supplied static showcase.
-The specimen section currently keeps all 25 `.jx-spec-row` rows.
+`@jinx-ui/react` exports 38 components and 3 hooks from `packages/react/src/runtime.ts`. That file is the public list: the contract test compares it against a written inventory, so a component added without being exported — or exported without being demonstrated — fails the build.
 
-The page includes examples for:
+Groups, as they appear in the specimen:
 
-- Buttons and button states.
-- Inputs, textarea, select, input group, and tag input.
-- Badges, chips, kbd, alerts, toast, modal, drawer, accordion, menu, combobox, calendar, pagination, avatar, progress, slider, table, snippets, and installation examples.
+- **Actions** — Button, Toggle, Chip, Kbd.
+- **Forms** — InputField, TextareaField, Select, Combobox, TagInput, Checkbox, Radio, Switch, Slider.
+- **Navigation** — Tabs, Breadcrumbs, Pagination, Menu, Stepper.
+- **Overlays** — Modal, Drawer, Tooltip, Toast with ToastViewport.
+- **Feedback** — Alert, Badge, Progress, ProgressCircle, Spinner, Skeleton, EmptyState.
+- **Content** — Table, Accordion, Calendar, Avatar with AvatarStack, Divider, Snippet, Snip.
 
-## Interaction Notes
+Hooks: `useControllableState` for the controlled/uncontrolled pair, `useDialogA11y` for focus trap and `Escape`, `useJxToastQueue` for the toast queue.
 
-- The transferred `src/jinx-app.js` keeps the prototype interactions needed for the showcase.
-- Toast and tag input no longer use `innerHTML`.
-- Tweaks panel updates theme, accent, style, and custom radius in local page state.
-- Style mode defaults to `brutal`.
+## Where they are shown
 
-## Current Boundary
+`src/showcase/Specimen.tsx` renders 25 rows; a row holds one primitive or a natural pair (Avatar with AvatarStack, Toast with its viewport). The page is the reference: if a component renders differently there than in an application, the application is wrong about props, not about CSS.
 
-The static showcase remains the visual reference, and the repository now also contains in-repo package layers:
+## Rules that hold across the surface
 
-- `packages/tokens`: variables and style-mode contract.
-- `packages/core`: CSS primitives and skin composition for core 8. Showcase-specific CSS is exported separately.
-- `packages/react`: runtime primitives for button, input/textarea, select/combobox, tabs, toast, modal/drawer, accordion.
+- Every class starts with `jx-`. Components never take a class from another framework.
+- State is controlled from outside through `value` / `onValueChange` and `open` / `onOpenChange`; `defaultValue` and `defaultOpen` switch a component to the uncontrolled mode. Both modes are implemented once, in `useControllableState`.
+- Text and markup go through `children` and `ReactNode` props. No `innerHTML`.
+- Colours, radii, shadows and fonts come from `--jx-*`. A component never hardcodes a hex value.
+- The React entry carries `'use client'`, so the package drops into the Next.js App Router without a wrapper.
 
-`jx-*` namespace is the public contract for v1. Do not introduce a second naming system during v1.
+## Style modes
 
-React runtime entrypoint is client-boundary compatible for Next App Router (`'use client'` in package entry).
-Modal and Drawer runtime now include focus trap basics (`Tab` loop + `Escape` close + opener focus restore).
-Showcase tabs now support `ArrowLeft` / `ArrowRight` / `Home` / `End` keyboard navigation in opt-in tablists (`data-tabs-nav`).
-Showcase Tweaks panel now has explicit open/close control and is intentionally non-modal (`aria-modal="false"`, no hard `Tab` trap across the page).
+`data-style` on the document element switches `brutal`, `glass` and `minimal`; `data-theme` switches `light` and `dark`. Both are plain attributes — no provider, no context. A skin may restyle a component, and when it does it must cover the component's states as well: the contract test checks that for chips, because a skin once swallowed the active state.

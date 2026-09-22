@@ -1,100 +1,50 @@
 # Design Contract
 
-## Source
+## Source of truth
 
-The accepted design source is the supplied Claude export:
+The design started as a static prototype and was transferred into this repository once; the prototype is no longer a reference. Today the source of truth is the repository itself:
 
-- `C:\Users\kgn20\Downloads\jinx-ui.html`
-- `C:\Users\kgn20\Downloads\jinx-app.css`
-- `C:\Users\kgn20\Downloads\jinx-skins.css`
-- `C:\Users\kgn20\Downloads\jinx-app.js`
-- `C:\Users\kgn20\Downloads\jinx-preset.css`
-- `C:\Users\kgn20\Downloads\jinx-tailwind.css`
+- `packages/tokens/src/index.css` — every `--jx-*` variable, per theme and per style mode. Nothing else may declare one.
+- `packages/core/src/jinx-app.css` and `jinx-skins.css` — the `jx-*` classes and the three skins.
+- `src/showcase/Specimen.tsx` — how each component is supposed to look and behave.
 
-The project now transfers that design directly. It is not a React recreation.
+A change to any of the three is a contract change and goes through the governance steps below.
 
-## Required Modes
+## Style modes
 
 | Mode | Role | Radius |
 | --- | --- | --- |
-| `brutal` | Default look | `4px` |
-| `glass` | Secondary translucent look | `14px` |
+| `brutal` | Default look: 2px borders, hard offset shadows, monospace | `4px` |
+| `glass` | Translucent look with backdrop blur | `14px` |
 | `minimal` | Quiet base look | `14px` |
 
-The mode radius contract applies to standard Jinx radius tokens:
+The radius contract covers `--jx-r-xs`, `--jx-r-sm`, `--jx-r`, `--jx-r-lg`, `--jx-r-xl` and `--jx-r-pill`. Runtime switching between the three modes must keep working; it is a plain `data-style` attribute on the document element, with `data-theme` for light and dark.
 
-- `--jx-r-xs`
-- `--jx-r-sm`
-- `--jx-r`
-- `--jx-r-lg`
-- `--jx-r-xl`
-- `--jx-r-pill`
+A skin may restyle a component, but then it owns that component's states too. `.jx-chip--active` was invisible under `brutal` and `glass` for exactly this reason, and the contract test now derives the list of skins from the stylesheet and demands an active state from each.
 
-## Allowed Changes From Source
+## Colour
 
-- Default `data-style` is changed from the prototype default to `brutal`.
-- Brutal radii are changed from `0px` to `4px`.
-- Glass and minimal radii are normalized to `14px`.
-- Cloudflare email-decode and Claude edit-mode host messaging are removed.
-- Dynamic `innerHTML` insertion is replaced with DOM node creation.
+Status colours (`--jx-success`, `--jx-warning`, `--jx-danger`, `--jx-info`) are theme-specific: a palette tuned on a dark background falls apart on a light one. The light theme declares its own values, and the contract test computes their contrast against white and requires 4.5:1.
 
-No layout reinterpretation is allowed without an explicit new design decision.
+## Package contract
 
-## v1 Package Contract
+- `packages/tokens` — token and mode variables. No component behaviour, no React.
+- `packages/core` — the `jx-*` CSS layer. `index.css` imports tokens, app styles and skins, so one import is enough; `./app` and `./skins` stay available for a consumer who wants them apart.
+- `packages/react` — the TSX runtime over the same `jx-*` classes: 38 components and 3 hooks, exported from `src/runtime.ts` behind `'use client'`.
 
-The in-repo package split is part of the v1 contract:
+Invariants:
 
-- `packages/tokens`: source of truth for token and mode-level CSS variables.
-- `packages/core`: `jx-*` CSS primitive layer (default entry), with showcase CSS as opt-in export.
-- `packages/react`: interactive runtime primitives using the same `jx-*` contract.
+- The `jx-*` namespace is stable; a second naming system is not introduced.
+- Every stateful primitive exposes the controlled pair (`value` + `onValueChange`, `open` + `onOpenChange`) and an uncontrolled default (`defaultValue`, `defaultOpen`), both implemented by `useControllableState`.
+- Keyboard and ARIA behaviour matches what the specimen demonstrates.
+- The React entry stays client-boundary compatible for the Next.js App Router.
 
-Runtime mode switching for `brutal`, `glass`, and `minimal` must remain supported.
+## Governance
 
-## Public API (v1)
+Before merging a contract-affecting change:
 
-### `@jinx-ui/tokens`
-
-- Public surface:
-  - mode-level CSS variables for `brutal`, `glass`, `minimal`
-  - radius token contract (`--jx-r-xs`, `--jx-r-sm`, `--jx-r`, `--jx-r-lg`, `--jx-r-xl`, `--jx-r-pill`)
-- Non-goals:
-  - no component behavior
-  - no React runtime logic
-
-### `@jinx-ui/core`
-
-- Public surface:
-  - `jx-*` CSS primitive classes for core 8
-  - primitive skin composition
-  - optional showcase CSS export (separate from primitive-first default)
-- Invariant:
-  - `jx-*` namespace is stable during v1
-
-### `@jinx-ui/react`
-
-- Public surface:
-  - interactive primitives for core 8:
-    - button
-    - input/textarea
-    - select/combobox
-    - tabs
-    - toast
-    - modal/drawer
-    - accordion
-  - controlled/uncontrolled contracts (`value` + `onChange`/`onValueChange` + `defaultValue`)
-- Runtime invariants:
-  - keyboard and ARIA behavior aligned with showcase contract
-  - client-boundary compatibility for Next App Router
-
-## Contract Governance
-
-Before merging any contract-affecting change:
-
-1. Confirm scope: token layer, primitive CSS layer, or React runtime behavior.
-2. Preserve `jx-*` namespace unless migration is explicitly approved.
-3. Keep mode-switch runtime support for all three modes (`brutal/glass/minimal`).
-4. Update `src/design-contract.test.ts` with a failing assertion first.
-5. Run local gate: `npm run test`, `npm run typecheck`, `npm run build` (or `npm run verify`).
-6. Update docs (`README` + `docs/*`) when public behavior changes.
-
-The repository must not introduce a parallel “second UI kit” until v1 extraction is complete.
+1. Name the layer it touches: tokens, CSS, or runtime behaviour.
+2. Add a failing assertion to `src/design-contract.test.ts` first.
+3. Keep the `jx-*` namespace and the three style modes working.
+4. Run the gate: `npm run test`, `npm run typecheck`, `npm run build`, or `npm run verify`.
+5. Update `README.md` and `docs/*` in the same commit when public behaviour changes. A number stated in prose should be derived by a test, not retyped.

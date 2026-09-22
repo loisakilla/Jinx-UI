@@ -1,23 +1,21 @@
 # Security Notes
 
-## Current Rules
+## Rules
 
-- Do not use `innerHTML`.
-- Do not use `dangerouslySetInnerHTML`.
-- Do not keep Claude edit-mode `postMessage` integration in shipped code.
-- Do not keep Cloudflare `/cdn-cgi/` email decode artifacts.
-- Treat tag input values as untrusted text.
-- Do not log user input.
+- No `innerHTML`, no `dangerouslySetInnerHTML`, anywhere in the packages or the showcase.
+- Text and markup travel through `children` and `ReactNode` props.
+- Treat every value a user types — tag input, combobox, toast text — as untrusted text, and never log it.
+- No host `postMessage` integration and no Cloudflare `/cdn-cgi/` email-decode artifacts in shipped code.
 
-## Applied Hardening
+## Applied
 
-- Replaced toast HTML string insertion with DOM node creation.
-- Replaced tag chip HTML string insertion with DOM node creation.
-- Replaced obfuscated email placeholders with plain static text.
-- Removed edit-mode host messaging.
-- Removed dead modal trigger branch from shipped runtime.
-- Added ARIA live region on toast stack and dialog semantics on tweaks panel.
+- Toast and tag chips build DOM nodes instead of assembling HTML strings.
+- Obfuscated email placeholders were replaced with plain static text.
+- Edit-mode host messaging and the dead modal trigger branch were removed.
+- The toast stack carries an ARIA live region; dialogs carry dialog semantics, a focus trap and focus restore to the opener.
 
-## Remaining Boundary
+## Boundary
 
-This is still a static showcase. Before turning it into a production package, each interactive primitive needs focused behavioral tests and accessibility review.
+The packages are workspace-private and are consumed from this repository, so there is no npm supply chain to defend yet. What does exist is covered: every exported component renders in `smoke.test.tsx` with a spy on React warnings, dialog and keyboard flows have behaviour tests, and `src/design-contract.test.ts` fails if an unsafe API reappears in the source.
+
+Before the packages are published, two things are still open: an accessibility audit against a real screen reader, and a decision about how consumers pin versions of the CSS layer, which is where a breaking change hurts most.
