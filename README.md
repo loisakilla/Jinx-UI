@@ -9,9 +9,15 @@ Live specimen: **https://jinx-ui.vercel.app**
 - Light and dark themes through `data-theme`; every colour, radius, shadow and font comes from a `--jx-*` token.
 - No `innerHTML`, no `dangerouslySetInnerHTML`, no global stores: every stateful primitive takes `value` / `defaultValue` / `onValueChange`.
 
-## Not on npm
+## Install
 
-The three packages are built and ready to publish, but they are not on npm yet, so they are consumed straight from this repository — as a clone, or as a git submodule. That is how [Context Lab](https://github.com/loisakilla/context-lab) uses them.
+```bash
+npm install @jinx-ui/core @jinx-ui/react
+```
+
+`@jinx-ui/core` is the CSS layer and `@jinx-ui/react` the TSX runtime over it. Take either on its own: the CSS works without React, and the runtime writes nothing but `jx-*` class names. `@jinx-ui/tokens` comes in through `core`, and is published separately for anyone who wants the variables alone.
+
+To work on the kit itself, clone it:
 
 ```bash
 git clone https://github.com/loisakilla/Jinx-UI.git

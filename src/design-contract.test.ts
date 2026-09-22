@@ -217,11 +217,12 @@ describe('Jinx UI design contract', () => {
     expect(JSON.stringify(manifests.react.exports)).not.toContain('src/');
   });
 
-  it('says the packages are not on npm yet, everywhere a visitor would look', () => {
-    expect(showcaseApp).not.toMatch(/npm i(nstall)?\s+@jinx-ui/);
-    expect(readme).not.toMatch(/npm i(nstall)?\s+@jinx-ui/);
-    expect(showcaseApp).toContain('Not on npm');
-    expect(readme).toContain('Not on npm');
+  it('tells a visitor how to install, everywhere a visitor would look', () => {
+    expect(showcaseApp).toMatch(/npm install @jinx-ui/);
+    expect(readme).toMatch(/npm install @jinx-ui/);
+    [readme, showcaseApp, reactPackageReadme, readProjectFile('packages/core/README.md'), readProjectFile('packages/tokens/README.md')].forEach((text) => {
+      expect(text.includes('Not on npm'), 'the packages are published; nothing should still say otherwise').toBe(false);
+    });
     expect(readme).toContain('https://jinx-ui.vercel.app');
   });
 

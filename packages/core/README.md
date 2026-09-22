@@ -1,6 +1,6 @@
 # @jinx-ui/core
 
-Not on npm yet. CSS for Jinx UI: imports `@jinx-ui/tokens` and provides every `jx-*` class used by `@jinx-ui/react` components and the showcase page.
+CSS for Jinx UI: imports `@jinx-ui/tokens` and provides every `jx-*` class used by `@jinx-ui/react` components and the showcase page.
 
 ```ts
 import '@jinx-ui/core';

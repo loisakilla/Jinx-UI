@@ -328,16 +328,15 @@ function Install() {
         <div className="jx-section-head">
           <div className="jx-section-label" data-num="C.">Install</div>
           <h2>
-            Not on npm. <em>Clone</em> it, or take the CSS.
+            <em>Install</em> the two you need.
           </h2>
           <p>
-            The three packages are built and ready to publish, but they are not on npm yet. Consume them from this repository as a clone or a git submodule; the CSS layer works on its own, without the React runtime.
+            Three packages on npm. Take the CSS layer on its own, the React runtime on top of it, or both; the tokens come in through core and ship separately for anyone who wants the variables alone.
           </p>
         </div>
         <div style={{ display: 'grid', gap: 16, maxWidth: 640 }}>
           <pre className="jx-snippet jx-snippet--block" style={{ margin: 0 }}>
-            <span className="jx-snippet-code">{`git clone https://github.com/loisakilla/Jinx-UI.git
-cd Jinx-UI && npm install && npm run dev`}</span>
+            <span className="jx-snippet-code">{`npm install @jinx-ui/core @jinx-ui/react`}</span>
           </pre>
           <pre className="jx-snippet jx-snippet--block" style={{ margin: 0 }}>
             <span className="jx-snippet-code">{`import '@jinx-ui/core';
