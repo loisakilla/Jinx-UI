@@ -107,7 +107,6 @@ export function JxTabs({
                     : {
                         position: 'absolute',
                         inset: 0,
-                        background: 'color-mix(in oklab, var(--jx-accent) 14%, var(--jx-surface))',
                         borderRadius: 'calc(var(--jx-r) - 2px)',
                         zIndex: 0
                       }

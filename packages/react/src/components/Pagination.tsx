@@ -47,11 +47,13 @@ export function JxPagination({
   className,
   ...rest
 }: JxPaginationProps) {
-  const [current, setCurrent] = useControllableState<number>(page, defaultPage ?? 1, onPageChange);
-  const items = buildPages(total, current, siblingCount);
+  const [requested, setCurrent] = useControllableState<number>(page, defaultPage ?? 1, onPageChange);
+  const lastPage = Math.max(1, total);
+  const current = Math.min(Math.max(1, requested), lastPage);
+  const items = buildPages(lastPage, current, siblingCount);
 
   const go = (next: number) => {
-    const clamped = Math.max(1, Math.min(total, next));
+    const clamped = Math.max(1, Math.min(lastPage, next));
     if (clamped !== current) setCurrent(clamped);
   };
 
@@ -87,7 +89,7 @@ export function JxPagination({
         type="button"
         className="jx-page-btn jx-page-btn--ghost"
         aria-label="Next"
-        disabled={current === total}
+        disabled={current === lastPage}
         onClick={() => go(current + 1)}
       >
         {nextIcon}

@@ -6,3 +6,4 @@ npm-debug.log*
 *.tsbuildinfo
 vite-dev.*.log
 .idea/
+.vite/

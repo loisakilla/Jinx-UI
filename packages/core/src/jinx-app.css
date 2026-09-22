@@ -1229,6 +1229,7 @@ main, header, footer, section { position: relative; z-index: 1; }
 }
 .jx-toggle-btn {
   appearance: none; border: 0; background: transparent;
+  position: relative;
   padding: 6px 12px; border-radius: calc(var(--jx-r) - 4px);
   font-family: var(--jx-font-sans); font-size: 13px; font-weight: 500;
   color: var(--jx-text-2); cursor: pointer;
@@ -1240,6 +1241,9 @@ main, header, footer, section { position: relative; z-index: 1; }
   background: var(--jx-accent); color: var(--jx-accent-ink);
   font-weight: 600;
 }
+.jx-toggle-indicator-bg { background: var(--jx-accent); }
+.jx-tabs-indicator-segment { background: color-mix(in oklab, var(--jx-accent) 14%, var(--jx-surface)); }
+[data-style="brutal"] .jx-tabs-indicator-segment { background: var(--jx-accent); }
 
 /* Divider */
 .jx-divider {

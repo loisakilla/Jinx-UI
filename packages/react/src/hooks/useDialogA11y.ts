@@ -55,6 +55,19 @@ export function useDialogA11y({
       return undefined;
     }
 
+    const { body } = document;
+    const previousOverflow = body.style.overflow;
+    body.style.overflow = 'hidden';
+    return () => {
+      body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
     const onWindowKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented) {
         return;

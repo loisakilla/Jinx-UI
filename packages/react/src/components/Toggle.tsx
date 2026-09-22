@@ -41,7 +41,6 @@ export function JxToggle({ items, value, defaultValue, onValueChange, className,
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'var(--jx-surface)',
                   borderRadius: 'calc(var(--jx-r) - 2px)',
                   boxShadow: '0 1px 2px rgba(0,0,0,.3)',
                   zIndex: 0

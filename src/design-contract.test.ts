@@ -1,5 +1,6 @@
 // @vitest-environment node
 
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { JSDOM } from 'jsdom';
@@ -176,7 +177,6 @@ describe('Jinx UI design contract', () => {
       'workspace-brutal.html',
       'public/jinx-preset.css',
       'public/jinx-tailwind.css',
-      'dist',
       'vite-dev.err.log',
       'vite-dev.out.log',
       'packages/core/src/primitives.css',
@@ -185,5 +185,8 @@ describe('Jinx UI design contract', () => {
     ].forEach((path) => {
       expect(existsSync(resolve(root, path))).toBe(false);
     });
+
+    const trackedBuildOutput = execFileSync('git', ['ls-files', 'dist'], { cwd: root, encoding: 'utf-8' }).trim();
+    expect(trackedBuildOutput).toBe('');
   });
 });

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '../utils/cn';
@@ -126,10 +126,23 @@ export function JxToastViewport({ items, onDismiss, position = 'bottom-left' }: 
 
 export function useJxToastQueue(initial: JxToastItem[] = []) {
   const [items, setItems] = useState<JxToastItem[]>(initial);
+  const timers = useRef(new Map<string, number>());
 
-  const dismiss = useCallback((id: string) => {
-    setItems((current) => current.filter((item) => item.id !== id));
+  const stopTimer = useCallback((id: string) => {
+    const timer = timers.current.get(id);
+    if (timer !== undefined) {
+      window.clearTimeout(timer);
+      timers.current.delete(id);
+    }
   }, []);
+
+  const dismiss = useCallback(
+    (id: string) => {
+      stopTimer(id);
+      setItems((current) => current.filter((item) => item.id !== id));
+    },
+    [stopTimer]
+  );
 
   const push = useCallback(
     (item: Omit<JxToastItem, 'id'>) => {
@@ -137,16 +150,26 @@ export function useJxToastQueue(initial: JxToastItem[] = []) {
       const duration = item.duration ?? 5000;
       setItems((current) => [...current, { id, ...item }]);
       if (duration > 0) {
-        window.setTimeout(() => dismiss(id), duration);
+        timers.current.set(id, window.setTimeout(() => dismiss(id), duration));
       }
       return id;
     },
     [dismiss]
   );
 
-  const clear = useCallback(() => setItems([]), []);
+  const stopAll = useCallback(() => {
+    for (const timer of timers.current.values()) {
+      window.clearTimeout(timer);
+    }
+    timers.current.clear();
+  }, []);
 
-  useEffect(() => () => setItems([]), []);
+  const clear = useCallback(() => {
+    stopAll();
+    setItems([]);
+  }, [stopAll]);
+
+  useEffect(() => stopAll, [stopAll]);
 
   return { items, push, dismiss, clear };
 }
