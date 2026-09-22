@@ -169,13 +169,23 @@ describe('Jinx UI design contract', () => {
     expect(showcaseApp).toContain('{COMPONENT_COUNT}<small>components</small>');
     expect(showcaseApp).not.toMatch(/\d+ React components/);
 
-    [readme, reactPackageReadme].forEach((text) => {
+    [readme, reactPackageReadme, reactPackageJson].forEach((text) => {
       const claimed = text.match(/(\d+) components and (\d+) hooks/);
-      expect(claimed, 'the README should state the component and hook count').toBeTruthy();
+      expect(claimed, 'the component and hook count should be stated').toBeTruthy();
       expect(Number(claimed?.[1])).toBe(components);
       expect(Number(claimed?.[2])).toBe(hooks);
     });
     expect(reactPackageReadme).not.toContain('core 8');
+
+    [
+      ['tokens', tokensPackageJson],
+      ['core', corePackageJson],
+      ['react', reactPackageJson],
+    ].forEach(([name, manifest]) => {
+      const description = JSON.parse(manifest).description as string;
+      expect(description.includes('three style modes'), `the ${name} npm page still advertises three style modes`).toBe(false);
+      expect(description.includes('glass'), `the ${name} npm page still names the removed skin`).toBe(false);
+    });
   });
 
   it('renders every exported component somewhere in the specimen', () => {

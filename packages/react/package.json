@@ -1,7 +1,7 @@
 {
   "name": "@jinx-ui/react",
   "version": "0.1.0",
-  "description": "React runtime for Jinx UI: 38 components and 3 hooks over the jx-* CSS contract, with three style modes.",
+  "description": "React runtime for Jinx UI: 40 components and 3 hooks over the jx-* CSS contract, with two style modes.",
   "keywords": [
     "react",
     "components",
