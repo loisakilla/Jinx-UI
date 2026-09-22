@@ -130,3 +130,12 @@ Context Lab switched its own interface to `brutal` light, which surfaced three p
 - The install block on the site offered `npm i @jinx-ui/core @jinx-ui/react` while the packages are workspace-private and absent from npm. It now says so and shows the clone.
 - The hero claimed 25 components and `~30kb gz`; the runtime exports 38 and the size was never measured. The count is derived from the runtime at render time, and the contract test checks that the README and the showcase agree with it.
 - `docs/testing.md` described a single contract layer and a build entry that no longer exists; `docs/components.md` described "core 8" and a deleted runtime script; `docs/design-contract.md` pointed at prototype files on a personal machine.
+
+### Behaviour audit across the component surface
+
+`behaviour.test.tsx` walks the whole kit: the controlled and uncontrolled contract, disabled semantics, keyboard paths, field wiring, overlays, the toast queue, and attribute forwarding. Writing it found two defects.
+
+- `JxCalendar` rendered its days as `motion.div` with an `onClick`. The date picker could not be reached from the keyboard and a screen reader saw plain numbers. Days are buttons now, with `aria-pressed` on the selected one and `aria-current="date"` on today; the CSS carries the button reset so the grid looks the same.
+- `JxProgress` and `JxProgressCircle` clamped the bar but announced the raw number, so a value of 150 drew a full bar and told assistive tech "150 out of 100". Both now clamp once and report the clamped value.
+
+Two apparent failures turned out to be exit animations rather than defects: a drawer and a toast stay mounted while framer-motion plays them out, so the assertions wait for removal.

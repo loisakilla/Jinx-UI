@@ -1128,6 +1128,8 @@ main, header, footer, section { position: relative; z-index: 1; }
   border-radius: var(--jx-r-sm);
   color: var(--jx-text-2); cursor: pointer;
   transition: background 120ms ease, color 120ms ease;
+  appearance: none; border: 0; padding: 0; width: 100%;
+  background: transparent; font: inherit; line-height: 1;
 }
 .jx-cal-day:hover { background: var(--jx-surface-2); color: var(--jx-text); }
 .jx-cal-day--out { color: var(--jx-text-4); }

@@ -9,7 +9,8 @@ export type JxProgressProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export function JxProgress({ value, max = 100, label, className, ...rest }: JxProgressProps) {
-  const pct = Math.max(0, Math.min(100, (value / max) * 100));
+  const clamped = Math.max(0, Math.min(max, value));
+  const pct = (clamped / max) * 100;
   return (
     <div
       {...rest}
@@ -17,7 +18,7 @@ export function JxProgress({ value, max = 100, label, className, ...rest }: JxPr
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={max}
-      aria-valuenow={value}
+      aria-valuenow={clamped}
       aria-label={label}
     >
       <motion.div
@@ -37,7 +38,8 @@ export type JxProgressCircleProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export function JxProgressCircle({ value, max = 100, showValue = true, className, style, ...rest }: JxProgressCircleProps) {
-  const pct = Math.max(0, Math.min(100, (value / max) * 100));
+  const clamped = Math.max(0, Math.min(max, value));
+  const pct = (clamped / max) * 100;
   const merged: CSSProperties = { ...(style ?? {}), ['--_v' as never]: pct };
   return (
     <div
@@ -46,7 +48,7 @@ export function JxProgressCircle({ value, max = 100, showValue = true, className
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={max}
-      aria-valuenow={value}
+      aria-valuenow={clamped}
       style={merged}
     >
       <svg viewBox="0 0 50 50" aria-hidden="true">

@@ -15,6 +15,7 @@
 
 - `smoke.test.tsx` renders every exported component and fails on any React warning.
 - `react-runtime.test.tsx` covers keyboard and ARIA flows: dialog `Escape`, focus trap, focus restore to the opener, select and combobox navigation, toast queue.
+- `behaviour.test.tsx` walks the component surface: the controlled and uncontrolled contract, disabled semantics, label and error wiring in fields, menu and chip callbacks, clamped progress values, the toast queue, and that every component keeps both its own `jx-` class and the one a consumer passes.
 - `regressions.test.tsx` pins bugs that were fixed once and must not come back.
 
 ## Rule for contract changes

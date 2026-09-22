@@ -114,8 +114,9 @@ export function JxCalendar({
           const isSelected = isSameDay(date, selected);
           const isInRange = inRange(date, rangeHover);
           return (
-            <motion.div
+            <motion.button
               key={index}
+              type="button"
               className={cn(
                 'jx-cal-day',
                 out && 'jx-cal-day--out',
@@ -123,6 +124,8 @@ export function JxCalendar({
                 isSelected && 'jx-cal-day--selected',
                 isInRange && 'jx-cal-day--in-range'
               )}
+              aria-pressed={isSelected}
+              aria-current={isToday ? 'date' : undefined}
               whileHover={out ? undefined : { y: -1 }}
               transition={{ duration: 0.12 }}
               onClick={() => {
@@ -133,7 +136,7 @@ export function JxCalendar({
               }}
             >
               {date.getDate()}
-            </motion.div>
+            </motion.button>
           );
         })}
       </div>

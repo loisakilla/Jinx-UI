@@ -18,3 +18,5 @@ First version prepared for npm. The packages are not published yet; everything b
 - `JxToggle` positioned its indicator against the nearest positioned ancestor; both segmented indicators painted over a skin's accent fill.
 - `JxPagination` trusted the page number it was given and left an empty collection navigable.
 - `useDialogA11y` did not lock body scroll behind a modal; `useJxToastQueue` left timers running after unmount.
+- `JxCalendar` days were unfocusable divs: the picker could not be used from the keyboard.
+- `JxProgress` and `JxProgressCircle` announced unclamped values through `aria-valuenow`.
