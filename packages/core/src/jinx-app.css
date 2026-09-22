@@ -4,68 +4,6 @@
    Style modes: glass (default), minimal, brutal — toggle via Tweaks.
    ════════════════════════════════════════════════════════════════════ */
 
-/* ── TOKENS (dark) ──────────────────────────────────────────────── */
-:root,
-[data-theme="dark"] {
-  --jx-bg:           #0c0a14;
-  --jx-bg-2:         #0f0d18;
-  --jx-surface:      #15121f;
-  --jx-surface-2:    #1c1828;
-  --jx-surface-3:    #2a2438;
-  --jx-border:       #221c30;
-  --jx-border-2:     #3a3150;
-  --jx-rule:         #1c1828;
-  --jx-text:         #f0ecf5;
-  --jx-text-2:       #a59cb8;
-  --jx-text-3:       #6e6386;
-  --jx-text-4:       #463e5a;
-  --jx-accent:       #c9a3ff;
-  --jx-accent-soft:  rgba(201, 163, 255, 0.14);
-  --jx-accent-ink:   #0c0a14;
-  --jx-accent-2:     #d4ff3d;
-  --jx-accent-2-ink: #0c0a14;
-  --jx-success:      #6bd97a;
-  --jx-warning:      #ffb547;
-  --jx-danger:       #ff5470;
-  --jx-info:         #79c8ff;
-  --jx-shadow-sm:    0 1px 2px rgba(0,0,0,.4);
-  --jx-shadow:       0 8px 24px -8px rgba(0,0,0,.6);
-  --jx-shadow-lg:    0 24px 48px -16px rgba(0,0,0,.7);
-}
-
-[data-theme="light"] {
-  --jx-bg:           #f5f2e9;
-  --jx-bg-2:         #ece8dc;
-  --jx-surface:      #ffffff;
-  --jx-surface-2:    #f5f1e6;
-  --jx-surface-3:    #e6e0d0;
-  --jx-border:       #ddd6c4;
-  --jx-border-2:     #b8ae96;
-  --jx-rule:         #ddd6c4;
-  --jx-text:         #1a1726;
-  --jx-text-2:       #4a4258;
-  --jx-text-3:       #7a7187;
-  --jx-text-4:       #b4abc0;
-  --jx-accent:       #7747d4;
-  --jx-accent-soft:  rgba(119, 71, 212, 0.12);
-  --jx-accent-ink:   #fff;
-  --jx-accent-2:     #859e00;
-  --jx-accent-2-ink: #fff;
-}
-
-:root {
-  --jx-r-xs:   14px;
-  --jx-r-sm:   14px;
-  --jx-r:      14px;
-  --jx-r-lg:   14px;
-  --jx-r-xl:   14px;
-  --jx-r-pill: 14px;
-  --jx-font-display: "Fraunces", ui-serif, serif;
-  --jx-font-sans:    "Inter Tight", system-ui, sans-serif;
-  --jx-font-mono:    "JetBrains Mono", ui-monospace, monospace;
-  --jx-ease:     cubic-bezier(0.4, 0, 0.2, 1);
-  --jx-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-}
 
 /* ── RESET ──────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }

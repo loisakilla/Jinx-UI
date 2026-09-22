@@ -97,6 +97,15 @@ describe('Jinx UI design contract', () => {
     expect(tailwindCss).toContain('--radius-jx:');
   });
 
+  it('declares design tokens in one place only', () => {
+    const declared = (css: string) => new Set([...css.matchAll(/^\s*(--jx-[a-z0-9-]+):/gm)].map((match) => match[1]));
+    const inTokens = declared(tokensCss);
+    expect(inTokens.size).toBeGreaterThan(30);
+    [...declared(coreApp)].forEach((token) => {
+      expect(inTokens.has(token), `${token} is declared in jinx-app.css and shadows the tokens package`).toBe(false);
+    });
+  });
+
   it('keeps status colours readable on the light theme', () => {
     const lightBlock = tokensCss.match(/\[data-theme="light"\]\s*\{([^}]*)\}/)?.[1] ?? '';
     const channel = (value: number) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
