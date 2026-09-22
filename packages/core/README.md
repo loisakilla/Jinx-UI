@@ -6,7 +6,7 @@ Not on npm yet. CSS for Jinx UI: imports `@jinx-ui/tokens` and provides every `j
 import '@jinx-ui/core';
 ```
 
-Set `data-style="brutal|glass|minimal"` and `data-theme="dark|light"` on the document root to switch visual modes.
+Set `data-style="brutal|minimal"` and `data-theme="dark|light"` on the document root to switch visual modes.
 
 ## Consuming it
 

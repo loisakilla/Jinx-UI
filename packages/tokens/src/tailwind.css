@@ -1,17 +1,17 @@
 /* ════════════════════════════════════════════════════════════════════
-   JINX UI — TAILWIND v4 PRESET                                v0.4.2
+   JINX UI — TAILWIND v4 PRESET
    ────────────────────────────────────────────────────────────────────
-   Map Jinx tokens onto Tailwind's @theme so all utilities (bg-accent,
-   text-ink, rounded-jx, etc.) resolve to the same single source of
-   truth. Override any token in your own @theme block.
+   Generated from packages/tokens/src/index.css. Every --color-*,
+   --radius-jx*, --font-*, --shadow-jx* and --ease-jx* here restates a
+   --jx-* token; the contract test fails if the two disagree.
 
    Usage (app.css):
      @import "tailwindcss";
-     @import "@jinx/ui/tailwind.css";
+     @import "@jinx-ui/tokens/tailwind";
    ════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ── COLOR ─────────────────────────────────────────────────────── */
+  /* ── COLOUR (dark) ─────────────────────────────────────────────── */
   --color-bg:           #0c0a14;
   --color-bg-2:         #0f0d18;
   --color-surface:      #15121f;
@@ -20,61 +20,60 @@
   --color-border:       #221c30;
   --color-border-2:     #3a3150;
   --color-rule:         #1c1828;
-
   --color-ink:          #f0ecf5;
   --color-ink-2:        #a59cb8;
-  --color-ink-3:        #6e6386;
+  --color-ink-3:        #8d84a8;
   --color-ink-4:        #463e5a;
-
-  --color-accent:       #ff2d80;
-  --color-accent-soft:  rgb(255 45 128 / 0.12);
+  --color-accent:       #c9a3ff;
+  --color-accent-soft:  rgba(201, 163, 255, 0.14);
   --color-accent-ink:   #0c0a14;
-  --color-accent-2:     #d4ff3d;
-  --color-accent-2-ink: #0c0a14;
-
   --color-success:      #6bd97a;
   --color-warning:      #ffb547;
   --color-danger:       #ff5470;
   --color-info:         #79c8ff;
 
   /* ── RADIUS ────────────────────────────────────────────────────── */
-  --radius-jx-xs:   14px;
-  --radius-jx-sm:   14px;
-  --radius-jx:      14px;
-  --radius-jx-lg:   14px;
-  --radius-jx-xl:   14px;
+  --radius-jx-xs:       14px;
+  --radius-jx-sm:       14px;
+  --radius-jx:          14px;
+  --radius-jx-lg:       14px;
+  --radius-jx-xl:       14px;
+  --radius-jx-pill:     14px;
 
   /* ── FONT ──────────────────────────────────────────────────────── */
-  --font-display:   "Fraunces", ui-serif, serif;
-  --font-sans:      "Inter Tight", system-ui, sans-serif;
-  --font-mono:      "JetBrains Mono", ui-monospace, monospace;
+  --font-display:       "Fraunces", ui-serif, serif;
+  --font-sans:          "Inter Tight", system-ui, sans-serif;
+  --font-mono:          "JetBrains Mono", ui-monospace, monospace;
 
   /* ── SHADOW ────────────────────────────────────────────────────── */
-  --shadow-jx-sm:   0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-jx:      0 8px 24px -8px rgb(0 0 0 / 0.6);
-  --shadow-jx-lg:   0 24px 48px -16px rgb(0 0 0 / 0.7);
+  --shadow-jx-sm:       0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-jx:          0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  --shadow-jx-lg:       0 24px 48px -16px rgba(0, 0, 0, 0.7);
 
   /* ── MOTION ────────────────────────────────────────────────────── */
-  --ease-jx:        cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-jx-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-jx:            cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-jx-out:        cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Dark / light helpers (toggle by [data-theme]) ─────────────── */
+/* ── Light theme, toggled by [data-theme] ──────────────────────── */
 :root[data-theme="light"] {
-  --color-bg:       #f5f2e9;
-  --color-bg-2:     #ece8dc;
-  --color-surface:  #ffffff;
-  --color-ink:      #1a1726;
-  --color-ink-2:    #4a4258;
-  --color-border:   #ddd6c4;
-  --color-border-2: #b8ae96;
-  --color-accent:   #c8155e;
-  --color-accent-2: #859e00;
-}
-
-/* ── Body defaults ─────────────────────────────────────────────── */
-body {
-  background: var(--color-bg);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
+  --color-bg:           #f5f2e9;
+  --color-bg-2:         #ece8dc;
+  --color-surface:      #ffffff;
+  --color-surface-2:    #f5f1e6;
+  --color-surface-3:    #e6e0d0;
+  --color-border:       #ddd6c4;
+  --color-border-2:     #b8ae96;
+  --color-rule:         #ddd6c4;
+  --color-ink:          #1a1726;
+  --color-ink-2:        #4a4258;
+  --color-ink-3:        #6b6379;
+  --color-ink-4:        #b4abc0;
+  --color-accent:       #6f3fcc;
+  --color-accent-soft:  rgba(111, 63, 204, 0.12);
+  --color-accent-ink:   #ffffff;
+  --color-success:      #176034;
+  --color-warning:      #7d4f00;
+  --color-danger:       #b01834;
+  --color-info:         #17518f;
 }

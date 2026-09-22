@@ -152,3 +152,67 @@ A script drove the built showcase through all three skins in both themes and mea
 - `.jx-tabs` and `.jx-toggle-group` are `inline-flex` but were stretched by any column flex parent, which is what left a segmented control with dead space beside its segments. They carry `width: fit-content`, and the Tweaks rows opt into full width with equal segments.
 
 The static contract test now recomputes contrast for text and status tokens against `--jx-bg` and `--jx-surface` in dark, light, brutal light and brutal dark, so a palette change that breaks readability fails the build without a browser.
+
+## 2026-09-22
+
+### The snippet row rendered as plain text
+
+`JxSnippet` and `JxSnip` were written against `.jx-snippet`, `.jx-snippet-prompt`, `.jx-snippet-code`, `.jx-snippet-copy`, `.jx-snippet--block` and `.jx-snip` — none of which existed in the CSS layer, in any commit. The specimen row and both install blocks therefore drew unstyled spans: no mono font, no border, newlines collapsed by `white-space: normal`, and a copy button left at the browser default with a `0x0` icon. All six classes are defined now, with a brutal-skin pass so the snippet gets the same 2px border and hard shadow as the other surfaces.
+
+Writing them surfaced two more defects in the row itself. The block snippet passed `copyText="import '@jinx-ui/core';"` while rendering four lines, so its copy button put one import on the clipboard and dropped the rest; the prop is gone and the component falls back to the whole string. And `scrollbar-width: thin` on the code element silently disabled the `::-webkit-scrollbar` rules meant to theme the bar — Chromium ignores the legacy pseudo-elements as soon as the standard property is set — so a block that overflowed drew the raw OS scrollbar. Block snippets wrap instead of scrolling now.
+
+### A fill token was used as ink
+
+The `alt` tone painted its prompt with `--jx-accent-2`. That token is tuned as a background, always paired with `--jx-accent-2-ink`, and as text it measures 3.05:1 on white — under the 4.5:1 floor this repository enforces everywhere else. Darkening the token was not an option: it would have dropped `.jx-badge--alt` and `.jx-avatar--alt` ink below the same floor. The prompt mixes 70% of the second accent into `--jx-text` instead, which measures 16.00 / 5.25 / 15.47 / 5.25 across minimal and brutal in both themes. The dead `.jx-codeblock .var` rule had the same defect and took the same fix, and the contract test now fails on any rule that paints text with a fill token.
+
+### The glass skin was removed
+
+Glass and minimal shared the same radius contract and differed only in backdrop blur and translucency, which made them read as one mode with a slightly softer background. Glass is gone: its block in `jinx-skins.css`, its selector in the tokens package, its entry in the Tweaks style switcher and the `.jx-atm` orb CSS it was the only consumer of — that markup was never rendered by the showcase at all. Two modes remain, `brutal` and `minimal`. The first sweep of the prose missed two lines — one of them in the README that ships with `@jinx-ui/react` — so the contract test now checks the tokens, the skins, the app CSS, both showcase files and every shipped README, and names the file that still carries the word. `CHANGELOG.md` and this log are deliberately outside it: they record what happened.
+
+### A component-wide sweep across both skins and both themes
+
+The snippet pass had only checked its own work, so the next look at the page turned up six defects it had walked past. Five were real, and the sweep that followed found five more.
+
+**Two variants that painted the same pixels.** `[data-style="brutal"] .jx-btn--alt` repainted the alt button with `--jx-accent`, the primary button's own fill, so the two were identical whenever a viewer picked an accent. `.jx-btn--ghost` inherited brutal's 2px border and hard shadow from the base `.jx-btn` rule, and because the brutal dark palette set `--jx-bg` and `--jx-surface` to the same `#1a1726`, ghost and secondary were also indistinguishable. Ghost is borderless in brutal now, and the second accent is gone entirely: `--jx-accent-2`, `--jx-accent-2-ink` and the `alt` variant of `JxButton`, `JxBadge`, `JxAvatar` and `JxSnippet` were removed, and the contract test fails if any of them reappears. One accent carries the system.
+
+**A palette that fought its own accent.** Brutal dark wrote `#f5ff3d` into `--jx-text`, `--jx-text-2`, `--jx-border`, `--jx-border-2`, `--jx-rule` and all three shadows. Every surface on the page was outlined in yellow regardless of the accent the viewer chose. Those tokens are neutral now; yellow survives as `--jx-accent`, which is what the Tweaks panel swaps.
+
+**The browser default that nobody reset.** `.jx-toast-close`, `.jx-modal-close`, `.jx-tw-close`, `.jx-page-btn`, `.jx-cal-nav button` and `.jx-tw-color` all set an explicit width and height and centred their icon with `place-items: center`, but none of them reset the UA `padding: 1px 6px` on `<button>`. On a 20px toast close that leaves 8px of content box for a 12px icon, and the glyph lands 2px right of centre. A measurement pass over every button under 40px now reports zero offsets in all four skin-theme combinations.
+
+**The keycap that sat too high.** `.jx-kbd` draws its keycap with `border-bottom-width: 2px` against 1px elsewhere, but kept symmetric `padding: 2px 6px`. With `box-sizing: border-box` that puts the content box centre half a pixel above the element centre. The padding is `3px 6px 2px` now, which cancels the extra border exactly.
+
+**A rule that ran past its last tab.** `.jx-tabs--underline .jx-tab` carried `margin-right: 24px`, the last tab included, so the strip's `border-bottom` extended 24px beyond the final tab. The spacing moved to `gap` on the container.
+
+**A countdown bar that escaped its corner.** `.jx-toast::after` animated `width` from 100% to 0 inside a `.jx-toast` that had a 14px radius and no `overflow: hidden`, so the square-ended bar drew outside the rounded corner; and `[data-style="brutal"] .jx-toast::after { display: none }` removed it from brutal altogether. The toast clips its children now, the bar animates `transform: scaleX()` instead of a layout property, and brutal gets a 4px bar in the accent.
+
+**A palette declared twice.** `packages/tokens/src/index.css` and `jinx-skins.css` both carried the full brutal palette, 42 declarations, byte-identical. They had not drifted yet, and the change above would have had to be made in both. The skins file carries rules only now, and the contract test asserts that neither `jinx-app.css` nor `jinx-skins.css` declares a `--jx-*` at all.
+
+Two components were missing rather than broken. `JxPasswordField` wraps the input with a reveal toggle that swaps `type` and reports itself through `aria-pressed`. `JxDateRangePicker` picks a span with a hover preview of the pending end date. Both it and `JxCalendar` now render a shared day grid, which is where the keyboard support landed: arrows by day and week, `Home` and `End` across the week, `PageUp` and `PageDown` by month, focus following the cursor across a month boundary. Each day's accessible name is its full date — a bare "17" told a screen reader nothing — which is why the calendar behaviour test now queries by date rather than by number. An earlier attempt put `role="grid"` and `role="gridcell"` on the container and the days; without `role="row"` between them that is an invalid grid, so the markup uses a labelled group of plain buttons instead.
+
+Nothing on the page honoured `prefers-reduced-motion`. It does now.
+
+Two things the sweep reported turned out to be measurement error rather than defects, and both are worth recording. A contrast pass that flipped `data-theme` and sampled 200ms later read the values mid-transition, because `body` carries `transition: background-color 200ms` and `getComputedStyle` returns the interpolated value; it reported 41 failures in brutal light and 51 in minimal light, including body text at a ratio of exactly 1.00. With transitions disabled the same pass reports zero failures in all four combinations, with the modal, the drawer and a toast open. Separately, an overflow check run while the preview pane had collapsed to zero width reported the button row spilling its column; at a real 1280px viewport there is no overflow anywhere.
+
+### A second look, at the parts the sweep could not reach
+
+A measurement pass only sees what is on screen. The overlays were shut for most of the first sweep, and what it did catch inside them was geometry rather than stacking — so four more defects surfaced once the drawer was actually opened and looked at.
+
+The drawer was the deep one. `.jx-drawer` declared `width: 320px; height: 360px` while the component overrode the height inline with `100%`, and it kept a full border and a corner radius on the edge flush to the viewport; under brutal its `4px 4px 0` hard shadow pointed off-screen. Worse, its header was invisible. `main, header, footer, section { position: relative; z-index: 1 }` — a rule left over from the atmospheric orbs deleted with the glass skin — made every section a stacking context, so an overlay at `z-index: 1200` was trapped inside one and the sticky nav at `z-index: 100` painted over the drawer title and its close button. Raising the overlay would not have helped. The fix is to leave the tree: `JxModal`, `JxDrawer` and `JxToastViewport` render through a portal on `document.body`, the vestigial `z-index` is gone, and a hit test at the nav's own coordinates now returns the drawer.
+
+The brutal skin also listed `.jx-drawer` among the surfaces it repaints with a `border: 2px solid` shorthand, which silently overrode the `border-right: 0` that makes a right-hand drawer sit flush. The drawer has its own brutal rule now.
+
+The segmented tab drew its motion indicator at `calc(var(--jx-r) - 2px)` inside a tab rounded to `calc(var(--jx-r) - 4px)`. Two radii for one shape: at 14px that is 12px inside 10px, and the tab showed through at each corner. The indicator inherits the radius, so the two cannot disagree again.
+
+`JxCombobox` had no way to clear what had been typed. The Tweaks accent picker still offered the lime swatch after the second accent was deleted, and the hero paragraph still claimed three style modes.
+
+One note on measuring any of this. The preview pane stops painting when it is not the front window, which stops `requestAnimationFrame`, which stops framer-motion; overlays then sit at their `initial` state, `opacity: 0`, indefinitely. That is a harness artefact rather than a defect, but it is the same failure a headless renderer would show, and it is worth recording that these components are invisible until their enter animation runs. The `prefers-reduced-motion` block added earlier covers CSS animations only — framer-motion drives JS transforms and is not affected by it.
+
+### The skin that was really a second theme
+
+The yellow took three passes to remove, which is the tell that it was not a colour problem. `[data-style="brutal"]` declared a full palette — `--jx-bg`, three surfaces, three border tokens, four text tokens, the accent, its soft and ink partners, and all three shadows — layered on top of the `[data-theme]` palette it was supposed to sit over. A skin that redefines colour is a second theme wearing a skin's name, and every complaint so far traced back to it: the accent picker had no effect on the tokens brutal had already pinned, the borders were whatever brutal said they were, and each fix moved the yellow somewhere else rather than removing it.
+
+Brutal carries shape now. It sets the 4px radius contract and one derived colour, `--jx-edge`, mixed as `color-mix(in oklab, var(--jx-text) 82%, var(--jx-bg))`, which is what its hard borders, rules and offset shadows are drawn in. Everything else comes from the theme. The mix is what fixes the second half of the complaint: at 82% the edge is a strong hard line in either direction rather than the stark near-white the earlier pass had left on dark. One accent now answers for every skin, and `[data-style="brutal"][data-theme="dark"]` is gone entirely.
+
+Chasing the last of the yellow turned up the Tailwind preset, which nothing had checked. Its header claims it maps "the same single source of truth"; it did not. The accent was `#ff2d80` where the token said `#c9a3ff`, the light accent `#c8155e` against `#6f3fcc`, `--color-ink-3` a shade behind `--jx-text-3`, the light block missing every status colour and `--radius-jx-pill`, the deleted second accent still exposed, and the usage snippet importing `@jinx/ui`, a package that has never existed. The file is generated from the tokens now, and the contract test walks all 34 mappings on both themes and fails on any disagreement — a drift of one hex is enough.
+
+`.jx-hero-meta` laid out `repeat(4, 1fr)` for three children, so a quarter of the row was an empty cell with a divider beside it. It is `repeat(auto-fit, minmax(220px, 1fr))`, which fills the row at any count and wraps on narrow screens.

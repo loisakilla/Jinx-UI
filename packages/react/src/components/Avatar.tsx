@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../utils/cn';
 
-export type JxAvatarTone = 'default' | 'accent' | 'alt' | 'info';
+export type JxAvatarTone = 'default' | 'accent' | 'info';
 export type JxAvatarSize = 'sm' | 'md' | 'lg';
 
 export type JxAvatarProps = HTMLAttributes<HTMLSpanElement> & {
@@ -13,7 +13,6 @@ export type JxAvatarProps = HTMLAttributes<HTMLSpanElement> & {
 
 const toneClass: Record<Exclude<JxAvatarTone, 'default'>, string> = {
   accent: 'jx-avatar--accent',
-  alt: 'jx-avatar--alt',
   info: 'jx-avatar--info'
 };
 

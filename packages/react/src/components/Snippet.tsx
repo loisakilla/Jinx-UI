@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../utils/cn';
 
-export type JxSnippetTone = 'default' | 'alt' | 'info';
+export type JxSnippetTone = 'default' | 'info';
 
 export type JxSnippetProps = HTMLAttributes<HTMLSpanElement> & {
   prompt?: ReactNode;
@@ -13,7 +13,6 @@ export type JxSnippetProps = HTMLAttributes<HTMLSpanElement> & {
 };
 
 const toneClass: Record<Exclude<JxSnippetTone, 'default'>, string> = {
-  alt: 'jx-snippet--alt',
   info: 'jx-snippet--info'
 };
 

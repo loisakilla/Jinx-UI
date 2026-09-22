@@ -360,7 +360,7 @@ describe('values that must not lie', () => {
       <JxAvatarStack>
         <JxAvatar>AB</JxAvatar>
         <JxAvatar tone="accent">CD</JxAvatar>
-        <JxAvatar tone="alt">+3</JxAvatar>
+        <JxAvatar tone="info">+3</JxAvatar>
       </JxAvatarStack>
     );
 
@@ -374,13 +374,13 @@ describe('calendar', () => {
     const onValueChange = vi.fn();
     render(<JxCalendar defaultValue={new Date(2026, 4, 12)} onValueChange={onValueChange} />);
 
-    await user.click(screen.getByRole('button', { name: '17' }));
+    await user.click(screen.getByRole('button', { name: /May 17, 2026/ }));
 
     expect(onValueChange).toHaveBeenCalledTimes(1);
     const picked = onValueChange.mock.calls[0]?.[0] as Date;
     expect(picked.getDate()).toBe(17);
     expect(picked.getMonth()).toBe(4);
-    expect(screen.getByRole('button', { name: '17' }).className).toContain('jx-cal-day--selected');
+    expect(screen.getByRole('button', { name: /May 17, 2026/ }).className).toContain('jx-cal-day--selected');
   });
 
   it('walks to another month without losing the selected day', async () => {

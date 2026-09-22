@@ -7,17 +7,15 @@ import { Specimen } from './Specimen';
 const COMPONENT_COUNT = Object.keys(JinxRuntime).filter((name) => name.startsWith('Jx')).length;
 
 type Theme = 'dark' | 'light';
-type StyleMode = 'brutal' | 'glass' | 'minimal';
+type StyleMode = 'brutal' | 'minimal';
 
 const STYLE_MODES: Array<{ value: StyleMode; label: string; radius: number }> = [
   { value: 'brutal', label: 'Brutal', radius: 4 },
-  { value: 'glass', label: 'Glass', radius: 14 },
   { value: 'minimal', label: 'Minimal', radius: 14 }
 ];
 
 const ACCENT_PRESETS: Array<{ color: string; label: string }> = [
   { color: '#c9a3ff', label: 'lavender' },
-  { color: '#d4ff3d', label: 'lime' },
   { color: '#79c8ff', label: 'sky' },
   { color: '#ff5470', label: 'coral' },
   { color: '#6bd97a', label: 'mint' }
@@ -248,7 +246,7 @@ function Hero({ onOpenTweaks }: { onOpenTweaks: () => void }) {
             A small library <br /> for <em>loud</em> interfaces.
           </h1>
           <div className="jx-hero-aside">
-            <p>{COMPONENT_COUNT} React components, three style modes, one CSS namespace. Built TSX-first, animated with framer-motion.</p>
+            <p>{COMPONENT_COUNT} React components, two style modes, one CSS namespace. Built TSX-first, animated with framer-motion.</p>
             <div className="jx-hero-aside-actions">
               <JxButton variant="primary" onClick={onOpenTweaks}>Open Tweaks</JxButton>
               <a href="#specimen">
@@ -267,9 +265,9 @@ function Hero({ onOpenTweaks }: { onOpenTweaks: () => void }) {
           </div>
           <div>
             <div className="jx-hero-meta-num">
-              3<small>modes</small>
+              2<small>modes</small>
             </div>
-            <div className="jx-hero-meta-label">Brutal · Glass · Minimal</div>
+            <div className="jx-hero-meta-label">Brutal · Minimal</div>
             <div className="jx-hero-meta-sub">Switch live via Tweaks.</div>
           </div>
           <div>

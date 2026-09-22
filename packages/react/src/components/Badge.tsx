@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '../utils/cn';
 
-export type JxBadgeTone = 'default' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'solid' | 'alt';
+export type JxBadgeTone = 'default' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'solid';
 
 export type JxBadgeProps = HTMLAttributes<HTMLSpanElement> & {
   tone?: JxBadgeTone;
@@ -15,8 +15,7 @@ const toneClass: Record<Exclude<JxBadgeTone, 'default'>, string> = {
   success: 'jx-badge--success',
   warning: 'jx-badge--warning',
   danger: 'jx-badge--danger',
-  solid: 'jx-badge--solid',
-  alt: 'jx-badge--alt'
+  solid: 'jx-badge--solid'
 };
 
 export function JxBadge({ tone = 'default', dot = false, className, children, ...rest }: JxBadgeProps) {

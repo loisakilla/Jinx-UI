@@ -32,6 +32,7 @@ const cases: Record<string, ReactElement> = {
   JxBreadcrumbs: <Jinx.JxBreadcrumbs items={[{ label: 'Projects', href: '/' }, { label: 'Current' }]} />,
   JxButton: <Jinx.JxButton variant="primary">Save</Jinx.JxButton>,
   JxCalendar: <Jinx.JxCalendar />,
+  JxDateRangePicker: <Jinx.JxDateRangePicker />,
   JxCheckbox: <Jinx.JxCheckbox label="I agree" />,
   JxChip: <Jinx.JxChip>Tag</Jinx.JxChip>,
   JxCombobox: <Jinx.JxCombobox options={[{ value: 'a', label: 'First' }]} />,
@@ -43,6 +44,7 @@ const cases: Record<string, ReactElement> = {
   ),
   JxEmptyState: <Jinx.JxEmptyState title="Nothing here" message="Create the first one" />,
   JxInputField: <Jinx.JxInputField label="Name" />,
+  JxPasswordField: <Jinx.JxPasswordField label="Password" />,
   JxKbd: <Jinx.JxKbd>Ctrl</Jinx.JxKbd>,
   JxMenu: <Jinx.JxMenu items={[{ label: 'Open' }, { type: 'divider' }, { label: 'Delete', danger: true }]} />,
   JxModal: (

@@ -30,11 +30,13 @@ A claim that lives only in prose rots. When the docs or the showcase state a num
 ## What the contract currently pins
 
 - The entry html is a thin shell that mounts `src/main.tsx`; no inline `<style>`, no showcase markup in html.
-- Default style mode is `brutal`; radii are `4px` for brutal and `14px` for glass and minimal.
+- Default style mode is `brutal`; radii are `4px` for brutal and `14px` for minimal, and the removed third skin is named nowhere in the tokens, the skins, the app CSS, the showcase or the shipped READMEs.
 - `@jinx-ui/core` imports tokens, app CSS and skins from one entry.
 - `--jx-*` variables are declared in `packages/tokens` only.
 - Light-theme `success`, `warning`, `danger` and `info` reach 4.5:1 on white; the test computes the contrast.
 - Every skin that restyles `.jx-chip` also restyles `.jx-chip--active`.
+- `jinx-app.css` and `jinx-skins.css` declare no `--jx-*` variables at all; the tokens package is the only place a variable is written.
+- Every `--color-*`, `--radius-jx*`, `--font-*`, `--shadow-jx*` and `--ease-jx*` in the Tailwind preset equals the `--jx-*` token it mirrors, on both themes.
 - The runtime exports the full component and hook list.
 - The specimen keeps 25 rows.
 - The showcase and the README state the same component count as the runtime exports.

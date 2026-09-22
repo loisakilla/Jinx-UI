@@ -5,10 +5,9 @@ Source of truth for Jinx CSS custom properties and style-mode variables.
 ## Public contract
 
 - Theme variables (`dark`/`light`) on `:root` and `[data-theme]`
-- Mode variables for `[data-style="brutal"|"glass"|"minimal"]`
+- Mode variables for `[data-style="brutal"|"minimal"]`
 - Radius contract:
   - `brutal`: `4px`
-  - `glass`: `14px`
   - `minimal`: `14px`
 
 ## Exports

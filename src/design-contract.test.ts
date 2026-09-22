@@ -45,6 +45,7 @@ const indexDoc = indexDom.window.document;
 const RUNTIME_EXPORTS = [
   'JxButton',
   'JxInputField',
+  'JxPasswordField',
   'JxTextareaField',
   'JxSelect',
   'JxCombobox',
@@ -79,6 +80,7 @@ const RUNTIME_EXPORTS = [
   'JxSpinner',
   'JxEmptyState',
   'JxCalendar',
+  'JxDateRangePicker',
   'JxDivider',
   'JxSnippet',
   'JxSnip',
@@ -99,16 +101,63 @@ describe('Jinx UI design contract', () => {
     expect(mainTsx).toContain("createRoot(rootNode).render(<App />");
   });
 
-  it('keeps the brutal default and three-mode radius contract in tokens', () => {
+  it('keeps the tailwind preset restating the tokens it claims to mirror', () => {
+    const declared = (css: string, selector: string) => {
+      const start = css.indexOf(`${selector} {`);
+      if (start === -1) return {} as Record<string, string>;
+      const body = css.slice(start + selector.length + 2, css.indexOf('}', start));
+      return Object.fromEntries([...body.matchAll(/(--[a-z0-9-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
+    };
+    const jx = { ...declared(tokensCss, ':root,\n[data-theme="dark"]'), ...declared(tokensCss, ':root') };
+    const jxLight = declared(tokensCss, '[data-theme="light"]');
+    const tw = declared(tailwindCss, '@theme');
+    const twLight = declared(tailwindCss, ':root[data-theme="light"]');
+
+    const map: Array<[string, string]> = [
+      ['--color-bg', '--jx-bg'], ['--color-bg-2', '--jx-bg-2'],
+      ['--color-surface', '--jx-surface'], ['--color-surface-2', '--jx-surface-2'], ['--color-surface-3', '--jx-surface-3'],
+      ['--color-border', '--jx-border'], ['--color-border-2', '--jx-border-2'], ['--color-rule', '--jx-rule'],
+      ['--color-ink', '--jx-text'], ['--color-ink-2', '--jx-text-2'], ['--color-ink-3', '--jx-text-3'], ['--color-ink-4', '--jx-text-4'],
+      ['--color-accent', '--jx-accent'], ['--color-accent-soft', '--jx-accent-soft'], ['--color-accent-ink', '--jx-accent-ink'],
+      ['--color-success', '--jx-success'], ['--color-warning', '--jx-warning'], ['--color-danger', '--jx-danger'], ['--color-info', '--jx-info'],
+      ['--radius-jx-xs', '--jx-r-xs'], ['--radius-jx-sm', '--jx-r-sm'], ['--radius-jx', '--jx-r'],
+      ['--radius-jx-lg', '--jx-r-lg'], ['--radius-jx-xl', '--jx-r-xl'], ['--radius-jx-pill', '--jx-r-pill'],
+      ['--font-display', '--jx-font-display'], ['--font-sans', '--jx-font-sans'], ['--font-mono', '--jx-font-mono'],
+      ['--shadow-jx-sm', '--jx-shadow-sm'], ['--shadow-jx', '--jx-shadow'], ['--shadow-jx-lg', '--jx-shadow-lg'],
+      ['--ease-jx', '--jx-ease'], ['--ease-jx-out', '--jx-ease-out'],
+    ];
+
+    expect(Object.keys(tw).length, 'the preset should declare something').toBeGreaterThan(20);
+    map.forEach(([twName, jxName]) => {
+      expect(tw[twName], `${twName} is missing from the tailwind preset`).toBeTruthy();
+      expect(tw[twName], `${twName} drifted from ${jxName}`).toBe(jx[jxName]);
+    });
+    Object.entries(twLight).forEach(([twName, value]) => {
+      const jxName = map.find(([name]) => name === twName)?.[1];
+      expect(jxName, `${twName} in the light block maps to no --jx-* token`).toBeTruthy();
+      expect(value, `${twName} drifted from ${jxName} on the light theme`).toBe(jxLight[jxName as string]);
+    });
+    expect(tailwindCss).not.toContain('@jinx/ui');
+    expect(tailwindCss).not.toContain('accent-2');
+  });
+
+  it('keeps the brutal default and two-mode radius contract in tokens', () => {
     expect(tokensCss).toContain('[data-style="brutal"]');
     expect(tokensCss).toMatch(/\[data-style="brutal"\][^}]*--jx-r:\s*4px/);
-    expect(tokensCss).toContain('[data-style="glass"]');
     expect(tokensCss).toContain('[data-style="minimal"]');
-    expect(tokensCss).toMatch(/\[data-style="glass"\][^}]*--jx-r:\s*14px/);
+    expect(tokensCss).toMatch(/\[data-style="minimal"\][^}]*--jx-r:\s*14px/);
     expect(coreSkins).toContain('[data-style="brutal"]');
-    expect(coreSkins).toContain('--jx-r:      4px;');
-    expect(coreSkins).toContain('[data-style="glass"]');
-    expect(coreSkins).toContain('[data-style="minimal"]');
+    const current: Record<string, string> = {
+      'packages/tokens/src/index.css': tokensCss,
+      'packages/core/src/jinx-skins.css': coreSkins,
+      'packages/core/src/jinx-app.css': coreApp,
+      'src/showcase/App.tsx': showcaseApp,
+      'src/showcase/Specimen.tsx': showcaseSpecimen,
+      ...docFiles,
+    };
+    Object.entries(current).forEach(([name, source]) => {
+      expect(source.toLowerCase().includes('glass'), `${name} still names the removed third skin`).toBe(false);
+    });
     expect(tailwindCss).toContain('--radius-jx:');
   });
 
@@ -179,8 +228,8 @@ describe('Jinx UI design contract', () => {
     const declared = (css: string) => new Set([...css.matchAll(/^\s*(--jx-[a-z0-9-]+):/gm)].map((match) => match[1]));
     const inTokens = declared(tokensCss);
     expect(inTokens.size).toBeGreaterThan(30);
-    [...declared(coreApp)].forEach((token) => {
-      expect(inTokens.has(token), `${token} is declared in jinx-app.css and shadows the tokens package`).toBe(false);
+    ([['jinx-app.css', coreApp], ['jinx-skins.css', coreSkins]] as const).forEach(([name, css]) => {
+      expect(declared(css).size, `${name} must carry rules, not variable declarations`).toBe(0);
     });
   });
 
@@ -193,8 +242,8 @@ describe('Jinx UI design contract', () => {
     };
     const base = { ...block(tokensCss, ':root,\n[data-theme="dark"]'), ...block(tokensCss, ':root') };
     const light = block(tokensCss, '[data-theme="light"]');
-    const brutal = block(coreSkins, '[data-style="brutal"]');
-    const brutalDark = block(coreSkins, '[data-style="brutal"][data-theme="dark"]');
+    const brutal = block(tokensCss, '[data-style="brutal"]');
+    const brutalDark = block(tokensCss, '[data-style="brutal"][data-theme="dark"]');
 
     const channel = (value: number) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
     const luminance = (hex: string) => {
@@ -229,6 +278,24 @@ describe('Jinx UI design contract', () => {
     });
   });
 
+  it('keeps one accent, and never inks text with a token tuned as a fill', () => {
+    ['--jx-accent-2'].forEach((token) => {
+      [
+        ['packages/tokens/src/index.css', tokensCss],
+        ['packages/core/src/jinx-app.css', coreApp],
+        ['packages/core/src/jinx-skins.css', coreSkins],
+      ].forEach(([name, css]) => {
+        expect(css.includes(token), `${name} brings back ${token}; the system carries one accent`).toBe(false);
+      });
+      const inked = [...coreApp.matchAll(new RegExp(`([^{}]+)\\{[^{}]*color:\\s*var\\(${token}\\)`, 'g'))]
+        .map((match) => match[1].trim().split('\n').pop()?.trim());
+      expect(inked, `${token} was a fill paired with ${token}-ink; as text it sat at 3.05:1 on white`).toEqual([]);
+    });
+    ['jx-btn--alt', 'jx-badge--alt', 'jx-avatar--alt', 'jx-snippet--alt'].forEach((variant) => {
+      expect(coreApp.includes(variant) || coreSkins.includes(variant), `${variant} was removed with the second accent`).toBe(false);
+    });
+  });
+
   it('keeps status colours readable on the light theme', () => {
     const lightBlock = tokensCss.match(/\[data-theme="light"\]\s*\{([^}]*)\}/)?.[1] ?? '';
     const channel = (value: number) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
@@ -246,10 +313,10 @@ describe('Jinx UI design contract', () => {
   it('makes every skin that repaints a component repaint its states too', () => {
     const contract: Array<{ base: string; states: string[] }> = [
       { base: '\\.jx-chip(?![\\w-])', states: ['\\.jx-chip--active'] },
-      { base: '\\.jx-badge(?![\\w-])', states: ['\\.jx-badge--solid', '\\.jx-badge--alt'] },
+      { base: '\\.jx-badge(?![\\w-])', states: ['\\.jx-badge--solid'] },
       { base: '\\.jx-tab\\[aria-selected="true"\\]', states: ['\\.jx-tabs--underline \\.jx-tab\\[aria-selected="true"\\]'] },
     ];
-    const skins = [...new Set([...coreSkins.matchAll(/\[data-style="([a-z]+)"\]/g)].map((match) => match[1]))];
+    const skins = [...new Set([...tokensCss.matchAll(/\[data-style="([a-z]+)"\]/g)].map((match) => match[1]))];
     expect(skins.length).toBeGreaterThan(1);
 
     contract.forEach(({ base, states }) => {
@@ -290,15 +357,17 @@ describe('Jinx UI design contract', () => {
     });
   });
 
-  it('renders the 25-component specimen and the full showcase sections from TSX', () => {
+  it('renders every specimen row and the full showcase sections from TSX', () => {
     const rowMatches = showcaseSpecimen.match(/<Row\s/g) ?? [];
-    expect(rowMatches.length).toBe(25);
+    expect(rowMatches.length).toBe(27);
+    expect(showcaseSpecimen).toContain(`<em>${rowMatches.length}</em> rows`);
     [
       'A · 01',
       'A · 06',
       'A · 13',
       'A · 19',
-      'A · 25'
+      'A · 25',
+      'A · 27'
     ].forEach((tag) => {
       expect(showcaseSpecimen).toContain(tag);
     });

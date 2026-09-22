@@ -1,6 +1,6 @@
 # @jinx-ui/react
 
-The React runtime for [Jinx UI](https://github.com/loisakilla/Jinx-UI): 38 components and 3 hooks over the `jx-*` CSS contract from `@jinx-ui/core`.
+The React runtime for [Jinx UI](https://github.com/loisakilla/Jinx-UI): 40 components and 3 hooks over the `jx-*` CSS contract from `@jinx-ui/core`.
 
 Live specimen: https://jinx-ui.vercel.app
 
@@ -32,7 +32,7 @@ The package entry carries `'use client'`, so the components drop into a server-c
 | `@jinx-ui/react` | All components and hooks, with `'use client'`. |
 | `@jinx-ui/react/runtime` | The same exports without the directive. |
 
-The CSS is a separate package: `@jinx-ui/core` brings tokens, component styles and the three skins in one import.
+The CSS is a separate package: `@jinx-ui/core` brings tokens, component styles and both skins in one import.
 
 ## License
 

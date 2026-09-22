@@ -107,7 +107,7 @@ export function JxTabs({
                     : {
                         position: 'absolute',
                         inset: 0,
-                        borderRadius: 'calc(var(--jx-r) - 2px)',
+                        borderRadius: 'inherit',
                         zIndex: 0
                       }
                 }

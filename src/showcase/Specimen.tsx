@@ -12,6 +12,7 @@ import {
   JxCheckbox,
   JxChip,
   JxCombobox,
+  JxDateRangePicker,
   JxDivider,
   JxDrawer,
   JxEmptyState,
@@ -20,6 +21,7 @@ import {
   JxMenu,
   JxModal,
   JxPagination,
+  JxPasswordField,
   JxProgress,
   JxProgressCircle,
   JxRadio,
@@ -145,7 +147,7 @@ const comboboxIcons = {
 
 const tableRows = [
   { name: 'Button', avatar: 'B', tone: 'accent' as const, version: '0.4.2', size: '1.2 kb', status: 'Stable', statusTone: 'success' as const, updated: '2d ago' },
-  { name: 'Combobox', avatar: 'C', tone: 'alt' as const, version: '0.4.2', size: '3.8 kb', status: 'New', statusTone: 'info' as const, updated: 'Today' },
+  { name: 'Combobox', avatar: 'C', tone: 'info' as const, version: '0.4.2', size: '3.8 kb', status: 'New', statusTone: 'info' as const, updated: 'Today' },
   { name: 'DataGrid', avatar: 'D', tone: 'info' as const, version: '0.3.9', size: '8.4 kb', status: 'Beta', statusTone: 'warning' as const, updated: '1w ago' },
   { name: 'Toast', avatar: 'T', tone: 'default' as const, version: '0.4.2', size: '2.1 kb', status: 'Stable', statusTone: 'success' as const, updated: '5d ago' }
 ];
@@ -169,7 +171,7 @@ export function Specimen() {
         <div className="jx-section-head">
           <div className="jx-section-label" data-num="A.">Specimen</div>
           <h2>
-            <em>25</em> rows — every component in the kit.
+            <em>27</em> rows — every component in the kit.
           </h2>
           <p>
             Each row demonstrates one primitive or a pair, shipped as React TSX. Every visual is driven by the jx-* namespace from @jinx-ui/core.
@@ -177,9 +179,8 @@ export function Specimen() {
         </div>
 
         <div className="jx-specimen-grid">
-          <Row tag="A · 01" title={<><em>Button</em></>} meta="6 var · 3 sz">
+          <Row tag="A · 01" title={<><em>Button</em></>} meta="5 var · 3 sz">
             <JxButton variant="primary">Primary</JxButton>
-            <JxButton variant="alt">Alt accent</JxButton>
             <JxButton variant="secondary">Secondary</JxButton>
             <JxButton variant="ghost">Ghost</JxButton>
             <JxButton variant="outline">Outline</JxButton>
@@ -198,6 +199,11 @@ export function Specimen() {
             <JxInputField label="Email" required type="email" defaultValue="hello@jinx.dev" helperText="// we'll never share. pinky promise." />
             <JxInputField label="API key" prefix="sk_live_" placeholder="•••••••••••••••" />
             <JxInputField label="Username" defaultValue="$jinx_99" errorText="no special characters — letters & digits only" />
+          </Row>
+
+          <Row tag="A · 26" title={<><em>Password</em></>} meta="reveal · a11y" bodyColumn>
+            <JxPasswordField label="Password" required defaultValue="hunter2-but-longer" helperText="// click the eye to reveal. 12 characters minimum." />
+            <JxPasswordField label="Confirm password" defaultValue="hunter2" errorText="the two passwords do not match" />
           </Row>
 
           <Row tag="A · 03" title={<><em>Textarea</em></>} meta="resize · help" bodyColumn bodyStyle={{ maxWidth: 420 }}>
@@ -263,7 +269,6 @@ export function Specimen() {
               <JxBadge dot tone="warning">Idle</JxBadge>
               <JxBadge dot tone="danger">Down</JxBadge>
               <JxBadge tone="solid">v0.4.2</JxBadge>
-              <JxBadge tone="alt">NEW</JxBadge>
             </div>
             <JxTagInput defaultValue={['react', 'typescript', 'tailwind v4']} />
           </Row>
@@ -338,12 +343,12 @@ export function Specimen() {
             <div className="row" style={{ display: 'flex', gap: 8 }}>
               <JxAvatar size="sm" tone="accent">JX</JxAvatar>
               <JxAvatar tone="accent">AR</JxAvatar>
-              <JxAvatar size="lg" tone="alt">VI</JxAvatar>
+              <JxAvatar size="lg" tone="info">VI</JxAvatar>
               <JxAvatar tone="info" status>KA</JxAvatar>
             </div>
             <JxAvatarStack>
               <JxAvatar tone="accent">AR</JxAvatar>
-              <JxAvatar tone="alt">VI</JxAvatar>
+              <JxAvatar tone="accent">VI</JxAvatar>
               <JxAvatar tone="info">KA</JxAvatar>
               <JxAvatar style={{ background: 'var(--jx-surface-2)', color: 'var(--jx-text-2)' }}>+8</JxAvatar>
             </JxAvatarStack>
@@ -552,6 +557,17 @@ export function Specimen() {
             </div>
           </Row>
 
+          <Row tag="A · 27" title={<><em>Date</em> range</>} meta="from · to · hover">
+            <JxDateRangePicker defaultValue={{ from: new Date(2026, 4, 13), to: new Date(2026, 4, 17) }} />
+            <div style={{ fontFamily: 'var(--jx-font-mono)', fontSize: 11, color: 'var(--jx-text-3)', marginLeft: 12, maxWidth: 200 }}>
+              // click a day to start
+              <br />
+              // hover previews the span
+              <br />
+              // ←↑→↓ walks the grid
+            </div>
+          </Row>
+
           <Row tag="A · 24" title={<><em>Divider</em></>} meta="labeled · plain" bodyColumn bodyStyle={{ maxWidth: 480 }}>
             <JxDivider />
             <JxDivider label="section" />
@@ -561,11 +577,11 @@ export function Specimen() {
           <Row tag="A · 25" title={<><em>Snippet</em> · Snip</>} meta="inline · block · copy" bodyColumn>
             <div className="row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <JxSnippet prompt="$" copyText="git clone https://github.com/loisakilla/Jinx-UI.git">git clone jinx-ui</JxSnippet>
-              <JxSnippet prompt="›" tone="alt" copyText="npm install">npm install</JxSnippet>
-              <JxSnippet prompt="#" tone="info" copyText="npm run dev">npm run dev</JxSnippet>
+              <JxSnippet prompt="›">npm install</JxSnippet>
+              <JxSnippet prompt="#" tone="info">npm run dev</JxSnippet>
             </div>
-            <JxSnippet block copyText="import '@jinx-ui/core';" style={{ width: '100%', maxWidth: 480 }}>
-              {`import '@jinx-ui/core';\nimport { JxButton } from '@jinx-ui/react';\n\nconst App = () => <JxButton variant="primary">Ship</JxButton>;`}
+            <JxSnippet block style={{ width: '100%', maxWidth: 480 }}>
+              {`import '@jinx-ui/core';\nimport { JxButton } from '@jinx-ui/react';\n\n<JxButton variant="primary">Ship it</JxButton>`}
             </JxSnippet>
             <p style={{ margin: 0 }}>
               Inline code inside a sentence uses <JxSnip>JxSnip</JxSnip>, which styles the text without the copy affordance.

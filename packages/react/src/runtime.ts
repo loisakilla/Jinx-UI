@@ -1,8 +1,8 @@
 export { JxButton } from './components/Button';
 export type { JxButtonProps, JxButtonSize, JxButtonVariant } from './components/Button';
 
-export { JxInputField, JxTextareaField } from './components/Fields';
-export type { JxInputFieldProps, JxTextareaFieldProps } from './components/Fields';
+export { JxInputField, JxPasswordField, JxTextareaField } from './components/Fields';
+export type { JxInputFieldProps, JxPasswordFieldProps, JxTextareaFieldProps } from './components/Fields';
 
 export { JxSelect } from './components/Select';
 export type { JxSelectOption, JxSelectProps } from './components/Select';
@@ -88,8 +88,8 @@ export type { JxSpinnerProps } from './components/Spinner';
 export { JxEmptyState } from './components/EmptyState';
 export type { JxEmptyStateProps } from './components/EmptyState';
 
-export { JxCalendar } from './components/Calendar';
-export type { JxCalendarProps } from './components/Calendar';
+export { JxCalendar, JxDateRangePicker } from './components/Calendar';
+export type { JxCalendarProps, JxDateRange, JxDateRangePickerProps } from './components/Calendar';
 
 export { JxDivider } from './components/Divider';
 export type { JxDividerProps } from './components/Divider';

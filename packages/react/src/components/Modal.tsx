@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useControllableState } from '../hooks/useControllableState';
 import { useDialogA11y } from '../hooks/useDialogA11y';
+import { useJxPortal } from '../hooks/usePortal';
 import { cn } from '../utils/cn';
 
 export type JxModalIntent = 'default' | 'danger' | 'warning' | 'info' | 'success';
@@ -80,6 +81,7 @@ export function JxModal({
   const messageId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const portal = useJxPortal();
 
   useDialogA11y({
     isOpen,
@@ -90,7 +92,7 @@ export function JxModal({
 
   const resolvedIcon = icon ?? (intent !== 'default' ? defaultIntentIcon(intent) : null);
 
-  return (
+  return portal(
     <AnimatePresence>
       {isOpen ? (
         <motion.div
