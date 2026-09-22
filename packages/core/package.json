@@ -9,7 +9,7 @@
   "style": "./src/index.css",
   "exports": {
     ".": "./src/index.css",
-    "./tokens": "./src/jinx-app.css",
+    "./app": "./src/jinx-app.css",
     "./skins": "./src/jinx-skins.css"
   }
 }
