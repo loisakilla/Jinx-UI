@@ -20,3 +20,6 @@ First version prepared for npm. The packages are not published yet; everything b
 - `useDialogA11y` did not lock body scroll behind a modal; `useJxToastQueue` left timers running after unmount.
 - `JxCalendar` days were unfocusable divs: the picker could not be used from the keyboard.
 - `JxProgress` and `JxProgressCircle` announced unclamped values through `aria-valuenow`.
+- The glass skin repainted `.jx-badge` and `.jx-tab` without their states: a solid badge lost its fill and kept dark ink on a dark pill, and an underline tab was drawn as a filled one.
+- `.jx-tabs` and `.jx-toggle-group` declared themselves inline but were stretched by any column flex parent, leaving a segmented control with dead space beside its segments.
+- Muted text, the danger button, the info avatar and the light-theme status tones sat below 4.5:1; every theme and skin is now checked by the contract test.

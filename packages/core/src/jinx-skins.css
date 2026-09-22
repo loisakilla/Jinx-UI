@@ -71,6 +71,11 @@
   border-color: color-mix(in oklab, var(--jx-text) 8%, transparent);
 }
 
+[data-style="glass"] .jx-tabs--underline .jx-tab[aria-selected="true"] {
+  background: transparent;
+  box-shadow: none;
+}
+
 [data-style="glass"] .jx-tab[aria-selected="true"] {
   background: color-mix(in oklab, var(--jx-text) 6%, transparent);
   box-shadow:
@@ -89,8 +94,22 @@
   border-color: color-mix(in oklab, var(--jx-text) 10%, transparent);
 }
 
+[data-style="glass"] .jx-badge--solid,
+[data-style="glass"] .jx-badge--alt {
+  background: var(--jx-accent);
+  color: var(--jx-accent-ink);
+  border-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+[data-style="glass"] .jx-badge--alt {
+  background: var(--jx-accent-2);
+  color: var(--jx-accent-2-ink);
+}
+
 [data-style="glass"] .jx-chip--active {
-  background: color-mix(in oklab, var(--jx-accent) 24%, transparent);
+  background: color-mix(in oklab, var(--jx-accent) 13%, transparent);
   color: var(--jx-accent);
   border-color: color-mix(in oklab, var(--jx-accent) 45%, transparent);
 }

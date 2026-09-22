@@ -34,6 +34,11 @@ function applyAccent(color: string) {
   root.style.setProperty('--jx-accent-ink', lum > 0.6 ? '#0c0a14' : '#ffffff');
 }
 
+function clearAccent() {
+  const root = document.documentElement;
+  for (const token of ['--jx-accent', '--jx-accent-soft', '--jx-accent-ink']) root.style.removeProperty(token);
+}
+
 const radiusTokens = ['--jx-r-xs', '--jx-r-sm', '--jx-r', '--jx-r-lg', '--jx-r-xl', '--jx-r-pill'];
 
 function applyRadius(value: number) {
@@ -56,11 +61,11 @@ function Tweaks({
 }: {
   theme: Theme;
   styleMode: StyleMode;
-  accent: string;
+  accent: string | null;
   radius: number;
   onTheme: (next: Theme) => void;
   onStyle: (next: StyleMode) => void;
-  onAccent: (next: string) => void;
+  onAccent: (next: string | null) => void;
   onRadius: (next: number) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -150,7 +155,7 @@ function Tweaks({
           <div className="jx-tw-row">
             <label>
               Accent
-              <span>{accent}</span>
+              <span>{accent ?? 'theme'}</span>
             </label>
             <div className="jx-tw-colors">
               {ACCENT_PRESETS.map((preset) => (
@@ -366,7 +371,7 @@ function Footer() {
 export function App() {
   const [theme, setTheme] = useState<Theme>('dark');
   const [styleMode, setStyleMode] = useState<StyleMode>('brutal');
-  const [accent, setAccent] = useState<string>('#c9a3ff');
+  const [accent, setAccent] = useState<string | null>(null);
   const [radius, setRadius] = useState<number>(4);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const openerRef = useRef<HTMLButtonElement>(null);
@@ -382,7 +387,8 @@ export function App() {
   }, [styleMode]);
 
   useEffect(() => {
-    applyAccent(accent);
+    if (accent) applyAccent(accent);
+    else clearAccent();
   }, [accent]);
 
   useEffect(() => {

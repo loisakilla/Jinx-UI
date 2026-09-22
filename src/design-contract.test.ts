@@ -184,6 +184,51 @@ describe('Jinx UI design contract', () => {
     });
   });
 
+  it('keeps text and status colours readable in every theme and skin', () => {
+    const block = (css: string, selector: string) => {
+      const start = css.indexOf(`${selector} {`);
+      if (start === -1) return {};
+      const body = css.slice(start + selector.length + 2, css.indexOf('}', start));
+      return Object.fromEntries([...body.matchAll(/(--jx-[a-z0-9-]+):\s*([^;]+);/g)].map((match) => [match[1], match[2].trim()]));
+    };
+    const base = { ...block(tokensCss, ':root,\n[data-theme="dark"]'), ...block(tokensCss, ':root') };
+    const light = block(tokensCss, '[data-theme="light"]');
+    const brutal = block(coreSkins, '[data-style="brutal"]');
+    const brutalDark = block(coreSkins, '[data-style="brutal"][data-theme="dark"]');
+
+    const channel = (value: number) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    const luminance = (hex: string) => {
+      const full = hex.length === 4 ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}` : hex;
+      const [red, green, blue] = [1, 3, 5].map((offset) => channel(Number.parseInt(full.slice(offset, offset + 2), 16) / 255));
+      return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+    };
+    const contrast = (a: string, b: string) => {
+      const first = luminance(a);
+      const second = luminance(b);
+      return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+    };
+
+    const combinations = {
+      dark: base,
+      light: { ...base, ...light },
+      'brutal light': { ...base, ...light, ...brutal },
+      'brutal dark': { ...base, ...brutal, ...brutalDark },
+    };
+    const readable = ['--jx-text', '--jx-text-2', '--jx-text-3', '--jx-success', '--jx-warning', '--jx-danger', '--jx-info'];
+
+    Object.entries(combinations).forEach(([name, tokens]) => {
+      const surfaces = [tokens['--jx-bg'], tokens['--jx-surface']].filter((value) => value?.startsWith('#'));
+      expect(surfaces.length, `${name} has no surfaces to measure against`).toBe(2);
+      readable.forEach((token) => {
+        const value = tokens[token];
+        if (!value?.startsWith('#')) return;
+        surfaces.forEach((surface) => {
+          expect(contrast(value, surface), `${token} on ${surface} in ${name}`).toBeGreaterThanOrEqual(4.5);
+        });
+      });
+    });
+  });
+
   it('keeps status colours readable on the light theme', () => {
     const lightBlock = tokensCss.match(/\[data-theme="light"\]\s*\{([^}]*)\}/)?.[1] ?? '';
     const channel = (value: number) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
@@ -198,12 +243,24 @@ describe('Jinx UI design contract', () => {
     });
   });
 
-  it('gives every skin that restyles chips a visible active state', () => {
-    const skins = [...coreSkins.matchAll(/\[data-style="([a-z]+)"\]\s+\.jx-chip(?![\w-])/g)].map((match) => match[1]);
-    expect(skins.length).toBeGreaterThan(0);
-    [...new Set(skins)].forEach((skin) => {
-      const restyled = new RegExp(`\\[data-style="${skin}"\\]\\s+\\.jx-chip--active`).test(coreSkins);
-      expect(restyled, `skin ${skin} overrides .jx-chip and must override .jx-chip--active too`).toBe(true);
+  it('makes every skin that repaints a component repaint its states too', () => {
+    const contract: Array<{ base: string; states: string[] }> = [
+      { base: '\\.jx-chip(?![\\w-])', states: ['\\.jx-chip--active'] },
+      { base: '\\.jx-badge(?![\\w-])', states: ['\\.jx-badge--solid', '\\.jx-badge--alt'] },
+      { base: '\\.jx-tab\\[aria-selected="true"\\]', states: ['\\.jx-tabs--underline \\.jx-tab\\[aria-selected="true"\\]'] },
+    ];
+    const skins = [...new Set([...coreSkins.matchAll(/\[data-style="([a-z]+)"\]/g)].map((match) => match[1]))];
+    expect(skins.length).toBeGreaterThan(1);
+
+    contract.forEach(({ base, states }) => {
+      skins.forEach((skin) => {
+        const repaints = new RegExp(`\\[data-style="${skin}"\\]\\s+${base}`).test(coreSkins);
+        if (!repaints) return;
+        states.forEach((state) => {
+          const covered = new RegExp(`\\[data-style="${skin}"\\]\\s+${state}`).test(coreSkins);
+          expect(covered, `skin ${skin} repaints ${base} and must cover ${state} as well`).toBe(true);
+        });
+      });
     });
   });
 

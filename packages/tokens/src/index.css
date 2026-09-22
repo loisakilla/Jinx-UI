@@ -11,7 +11,7 @@
   --jx-rule: #1c1828;
   --jx-text: #f0ecf5;
   --jx-text-2: #a59cb8;
-  --jx-text-3: #6e6386;
+  --jx-text-3: #8d84a8;
   --jx-text-4: #463e5a;
   --jx-accent: #c9a3ff;
   --jx-accent-soft: rgba(201, 163, 255, 0.14);
@@ -38,17 +38,17 @@
   --jx-rule: #ddd6c4;
   --jx-text: #1a1726;
   --jx-text-2: #4a4258;
-  --jx-text-3: #7a7187;
+  --jx-text-3: #6b6379;
   --jx-text-4: #b4abc0;
-  --jx-accent: #7747d4;
-  --jx-accent-soft: rgba(119, 71, 212, 0.12);
+  --jx-accent: #6f3fcc;
+  --jx-accent-soft: rgba(111, 63, 204, 0.12);
   --jx-accent-ink: #fff;
   --jx-accent-2: #859e00;
-  --jx-accent-2-ink: #fff;
-  --jx-success: #1f7a45;
-  --jx-warning: #9a6300;
-  --jx-danger: #c81e3c;
-  --jx-info: #1d5fb0;
+  --jx-accent-2-ink: #14180a;
+  --jx-success: #176034;
+  --jx-warning: #7d4f00;
+  --jx-danger: #b01834;
+  --jx-info: #17518f;
 }
 
 :root {

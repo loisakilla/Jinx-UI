@@ -139,3 +139,16 @@ Context Lab switched its own interface to `brutal` light, which surfaced three p
 - `JxProgress` and `JxProgressCircle` clamped the bar but announced the raw number, so a value of 150 drew a full bar and told assistive tech "150 out of 100". Both now clamp once and report the clamped value.
 
 Two apparent failures turned out to be exit animations rather than defects: a drawer and a toast stay mounted while framer-motion plays them out, so the assertions wait for removal.
+
+### Contrast and skin audit across six combinations
+
+A script drove the built showcase through all three skins in both themes and measured every text node against the colour actually painted behind it, compositing translucent layers. The first pass reported invisible and sub-AA text in five of six combinations; the last pass reports none.
+
+- The glass skin repainted `.jx-badge` and `.jx-tab` and did not cover their states, so a solid badge lost its fill and kept dark ink on a dark pill, and an underline tab was drawn as a filled one. Both are covered now, and the contract test derives the rule: a skin that repaints a component must repaint its states too.
+- `--jx-text-3` failed AA as body text in both themes; it moved to `#8d84a8` on dark and `#6b6379` on light.
+- The light-theme status tones, the danger button fill, the info avatar and the second accent's ink were all below 4.5:1 against the surfaces they sit on.
+- Out-of-month calendar days were dimmer than 2:1 while staying clickable.
+- The showcase forced its default accent as an inline custom property at mount, so switching to the light theme kept the dark accent and washed out every accented label. The accent now follows the theme until a preset is picked.
+- `.jx-tabs` and `.jx-toggle-group` are `inline-flex` but were stretched by any column flex parent, which is what left a segmented control with dead space beside its segments. They carry `width: fit-content`, and the Tweaks rows opt into full width with equal segments.
+
+The static contract test now recomputes contrast for text and status tokens against `--jx-bg` and `--jx-surface` in dark, light, brutal light and brutal dark, so a palette change that breaks readability fails the build without a browser.
