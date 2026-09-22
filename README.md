@@ -56,3 +56,7 @@ npm run build
 - `docs/testing.md`
 - `docs/security.md`
 - `docs/implementation-log.md`
+
+## License
+
+MIT. See [LICENSE](LICENSE).

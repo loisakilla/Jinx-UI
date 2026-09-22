@@ -2,6 +2,7 @@
   "name": "@jinx-ui/core",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "@jinx-ui/tokens": "0.1.0"
