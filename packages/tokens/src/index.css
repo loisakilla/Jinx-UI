@@ -45,6 +45,10 @@
   --jx-accent-ink: #fff;
   --jx-accent-2: #859e00;
   --jx-accent-2-ink: #fff;
+  --jx-success: #1f7a45;
+  --jx-warning: #9a6300;
+  --jx-danger: #c81e3c;
+  --jx-info: #1d5fb0;
 }
 
 :root {

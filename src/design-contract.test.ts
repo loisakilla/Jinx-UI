@@ -97,6 +97,29 @@ describe('Jinx UI design contract', () => {
     expect(tailwindCss).toContain('--radius-jx:');
   });
 
+  it('keeps status colours readable on the light theme', () => {
+    const lightBlock = tokensCss.match(/\[data-theme="light"\]\s*\{([^}]*)\}/)?.[1] ?? '';
+    const channel = (value: number) => (value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    const contrastOnWhite = (hex: string) => {
+      const [red, green, blue] = [1, 3, 5].map((offset) => channel(Number.parseInt(hex.slice(offset, offset + 2), 16) / 255));
+      return 1.05 / (0.2126 * red + 0.7152 * green + 0.0722 * blue + 0.05);
+    };
+    ['--jx-success', '--jx-warning', '--jx-danger', '--jx-info'].forEach((token) => {
+      const value = lightBlock.match(new RegExp(`${token}:\\s*(#[0-9a-f]{6})`, 'i'))?.[1];
+      expect(value, `${token} needs a light-theme value`).toBeTruthy();
+      expect(contrastOnWhite(value as string), `${token} must reach 4.5:1 on white`).toBeGreaterThanOrEqual(4.5);
+    });
+  });
+
+  it('gives every skin that restyles chips a visible active state', () => {
+    const skins = [...coreSkins.matchAll(/\[data-style="([a-z]+)"\]\s+\.jx-chip(?![\w-])/g)].map((match) => match[1]);
+    expect(skins.length).toBeGreaterThan(0);
+    [...new Set(skins)].forEach((skin) => {
+      const restyled = new RegExp(`\\[data-style="${skin}"\\]\\s+\\.jx-chip--active`).test(coreSkins);
+      expect(restyled, `skin ${skin} overrides .jx-chip and must override .jx-chip--active too`).toBe(true);
+    });
+  });
+
   it('exposes a single @jinx-ui/core entry that ships tokens + skins together', () => {
     expect(coreCss).toContain('@import "@jinx-ui/tokens"');
     expect(coreCss).toContain('@import "./jinx-app.css"');

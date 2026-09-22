@@ -89,6 +89,12 @@
   border-color: color-mix(in oklab, var(--jx-text) 10%, transparent);
 }
 
+[data-style="glass"] .jx-chip--active {
+  background: color-mix(in oklab, var(--jx-accent) 24%, transparent);
+  color: var(--jx-accent);
+  border-color: color-mix(in oklab, var(--jx-accent) 45%, transparent);
+}
+
 [data-style="glass"] .jx-btn--primary {
   background: linear-gradient(180deg,
     color-mix(in oklab, var(--jx-accent) 100%, white 10%),
@@ -275,6 +281,11 @@
 [data-style="brutal"] .jx-badge--accent,
 [data-style="brutal"] .jx-badge--alt {
   background: var(--jx-accent); color: var(--jx-accent-ink);
+}
+
+[data-style="brutal"] .jx-chip--active {
+  background: var(--jx-accent); color: var(--jx-accent-ink);
+  border-color: var(--jx-border);
 }
 
 [data-style="brutal"] .jx-tab[aria-selected="true"] {
