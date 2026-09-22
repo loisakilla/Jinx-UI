@@ -4,6 +4,10 @@ The React runtime for [Jinx UI](https://github.com/loisakilla/Jinx-UI): 40 compo
 
 Live specimen: https://jinx-ui.vercel.app
 
+```bash
+npm install @jinx-ui/core @jinx-ui/react
+```
+
 ```tsx
 import '@jinx-ui/core';
 import { JxButton, JxModal } from '@jinx-ui/react';
@@ -24,6 +28,7 @@ The package entry carries `'use client'`, so the components drop into a server-c
 - Tabs: `ArrowLeft` / `ArrowRight` / `Home` / `End`; only the active tab stays in tab order.
 - Modal and Drawer: focus trap, `Escape` to close, focus returned to the opener, body scroll locked while open.
 - Select and Combobox: arrow navigation, type-ahead, `Escape` to close.
+- Calendar and DateRangePicker: arrows by day and week, `Home` / `End` across the week, `PageUp` / `PageDown` by month; each day is named by its full date, not its number.
 
 ## Exports
 
