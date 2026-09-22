@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom';
 import { describe, expect, it } from 'vitest';
 
 const root = process.cwd();
-const readProjectFile = (path: string) => readFileSync(resolve(root, path), 'utf-8');
+const readProjectFile = (path: string) => readFileSync(resolve(root, path), 'utf-8').replace(/\r\n/g, '\n');
 
 const indexHtml = readProjectFile('index.html');
 const mainTsx = readProjectFile('src/main.tsx');
