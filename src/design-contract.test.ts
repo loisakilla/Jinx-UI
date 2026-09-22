@@ -372,6 +372,13 @@ describe('Jinx UI design contract', () => {
     const rowMatches = showcaseSpecimen.match(/<Row\s/g) ?? [];
     expect(rowMatches.length).toBe(27);
     expect(showcaseSpecimen).toContain(`<em>${rowMatches.length}</em> rows`);
+
+    const tags = [...showcaseSpecimen.matchAll(/tag="A · (\d+)"/g)].map((match) => match[1]);
+    expect(tags.length, 'every row should carry a tag').toBe(rowMatches.length);
+    expect(
+      tags,
+      'the specimen reads as a numbered sequence, so a row inserted in the middle renumbers the ones after it'
+    ).toEqual(rowMatches.map((_, index) => String(index + 1).padStart(2, '0')));
     [
       'A · 01',
       'A · 06',

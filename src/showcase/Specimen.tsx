@@ -201,12 +201,12 @@ export function Specimen() {
             <JxInputField label="Username" defaultValue="$jinx_99" errorText="no special characters — letters & digits only" />
           </Row>
 
-          <Row tag="A · 26" title={<><em>Password</em></>} meta="reveal · a11y" bodyColumn>
+          <Row tag="A · 03" title={<><em>Password</em></>} meta="reveal · a11y" bodyColumn>
             <JxPasswordField label="Password" required defaultValue="hunter2-but-longer" helperText="// click the eye to reveal. 12 characters minimum." />
             <JxPasswordField label="Confirm password" defaultValue="hunter2" errorText="the two passwords do not match" />
           </Row>
 
-          <Row tag="A · 03" title={<><em>Textarea</em></>} meta="resize · help" bodyColumn bodyStyle={{ maxWidth: 420 }}>
+          <Row tag="A · 04" title={<><em>Textarea</em></>} meta="resize · help" bodyColumn bodyStyle={{ maxWidth: 420 }}>
             <JxTextareaField
               label="Release notes"
               defaultValue="Adds <Combobox /> with async loading and 12 a11y fixes across form primitives."
@@ -214,7 +214,7 @@ export function Specimen() {
             />
           </Row>
 
-          <Row tag="A · 04" title={<><em>Select</em></>} meta="custom · keyboard" bodyStyle={{ gap: 24, alignItems: 'flex-start' }}>
+          <Row tag="A · 05" title={<><em>Select</em></>} meta="custom · keyboard" bodyStyle={{ gap: 24, alignItems: 'flex-start' }}>
             <div style={{ width: 240 }}>
               <JxSelect
                 label="Framework"
@@ -239,7 +239,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 05" title={<><em>Combobox</em></>} meta="filter · async">
+          <Row tag="A · 06" title={<><em>Combobox</em></>} meta="filter · async">
             <JxCombobox
               placeholder="Search components..."
               options={[
@@ -260,7 +260,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 06" title={<><em>Badge</em> · Chip · Tag-input</>} meta="8 tones" bodyColumn>
+          <Row tag="A · 07" title={<><em>Badge</em> · Chip · Tag-input</>} meta="8 tones" bodyColumn>
             <div className="row" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <JxBadge dot>Default</JxBadge>
               <JxBadge dot tone="accent">Active</JxBadge>
@@ -273,7 +273,7 @@ export function Specimen() {
             <JxTagInput defaultValue={['react', 'typescript', 'tailwind v4']} />
           </Row>
 
-          <Row tag="A · 07" title={<><em>Tabs</em> · Toggle</>} meta="segmented · underline">
+          <Row tag="A · 08" title={<><em>Tabs</em> · Toggle</>} meta="segmented · underline">
             <JxTabs
               ariaLabel="Specimen segmented tabs"
               defaultValue="activity"
@@ -313,7 +313,7 @@ export function Specimen() {
             />*/}
           </Row>
 
-          <Row tag="A · 08" title={<><em>Alert</em></>} meta="4 intents" bodyColumn bodyStyle={{ maxWidth: 560 }}>
+          <Row tag="A · 09" title={<><em>Alert</em></>} meta="4 intents" bodyColumn bodyStyle={{ maxWidth: 560 }}>
             <JxAlert intent="info" title="New release: v0.4.2">
               Adds <code>&lt;Combobox /&gt;</code>, fixes 12 a11y issues.
             </JxAlert>
@@ -328,7 +328,7 @@ export function Specimen() {
             </JxAlert>
           </Row>
 
-          <Row tag="A · 09" title={<><em>Switch</em> · Check · Radio</>} meta="controlled" bodyStyle={{ gap: 24 }}>
+          <Row tag="A · 10" title={<><em>Switch</em> · Check · Radio</>} meta="controlled" bodyStyle={{ gap: 24 }}>
             <JxSwitch label="Weekly digest" defaultChecked />
             <JxSwitch label="Beta features" />
             <span className="jx-spec-divider">│</span>
@@ -339,7 +339,7 @@ export function Specimen() {
             <JxRadio name="spec-plan" label="Yearly" />
           </Row>
 
-          <Row tag="A · 10" title={<><em>Avatar</em></>} meta="stack · status" bodyStyle={{ gap: 32 }}>
+          <Row tag="A · 11" title={<><em>Avatar</em></>} meta="stack · status" bodyStyle={{ gap: 32 }}>
             <div className="row" style={{ display: 'flex', gap: 8 }}>
               <JxAvatar size="sm" tone="accent">JX</JxAvatar>
               <JxAvatar tone="accent">AR</JxAvatar>
@@ -362,7 +362,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 11" title={<><em>Slider</em> · Progress</>} meta="range · linear · radial" bodyStyle={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: 32, width: '100%', maxWidth: 720, alignItems: 'center' }}>
+          <Row tag="A · 12" title={<><em>Slider</em> · Progress</>} meta="range · linear · radial" bodyStyle={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: 32, width: '100%', maxWidth: 720, alignItems: 'center' }}>
             <JxSlider label="Volume" defaultValue={72} />
             <div>
               <JxProgress value={48} label="Upload" />
@@ -372,7 +372,7 @@ export function Specimen() {
             <JxProgressCircle value={67} />
           </Row>
 
-          <Row tag="A · 12" title={<><em>Tooltip</em> · Kbd</>} meta="hover · focus" bodyStyle={{ gap: 24 }}>
+          <Row tag="A · 13" title={<><em>Tooltip</em> · Kbd</>} meta="hover · focus" bodyStyle={{ gap: 24 }}>
             <JxTooltip tip="Save for later">
               <JxButton variant="secondary" iconOnly aria-label="Bookmark">{bookmarkIcon}</JxButton>
             </JxTooltip>
@@ -392,7 +392,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 13" title={<><em>Table</em></>} meta="hover · status" bodyColumn bodyStyle={{ maxWidth: 760 }}>
+          <Row tag="A · 14" title={<><em>Table</em></>} meta="hover · status" bodyColumn bodyStyle={{ maxWidth: 760 }}>
             <JxTable>
               <thead>
                 <tr>
@@ -422,7 +422,7 @@ export function Specimen() {
             </JxTable>
           </Row>
 
-          <Row tag="A · 14" title={<><em>Menu</em></>} meta="overflow · context" bodyStyle={{ gap: 32, alignItems: 'flex-start' }}>
+          <Row tag="A · 15" title={<><em>Menu</em></>} meta="overflow · context" bodyStyle={{ gap: 32, alignItems: 'flex-start' }}>
             <JxMenu
               items={[
                 { type: 'label', label: 'Workspace' },
@@ -435,7 +435,7 @@ export function Specimen() {
             />
           </Row>
 
-          <Row tag="A · 15" title={<><em>Modal</em></>} meta="destructive · confirm">
+          <Row tag="A · 16" title={<><em>Modal</em></>} meta="destructive · confirm">
             <JxButton variant="secondary" onClick={() => setModalOpen(true)}>Open modal</JxButton>
             <JxModal
               open={modalOpen}
@@ -449,7 +449,7 @@ export function Specimen() {
             </JxModal>
           </Row>
 
-          <Row tag="A · 16" title={<><em>Drawer</em></>} meta="side-panel">
+          <Row tag="A · 17" title={<><em>Drawer</em></>} meta="side-panel">
             <JxButton variant="outline" onClick={() => setDrawerOpen(true)}>Open drawer</JxButton>
             <JxDrawer open={drawerOpen} onOpenChange={setDrawerOpen} title="Filters">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -468,7 +468,7 @@ export function Specimen() {
             </JxDrawer>
           </Row>
 
-          <Row tag="A · 17" title={<><em>Accordion</em></>} meta="single · multi" bodyColumn bodyStyle={{ maxWidth: 540 }}>
+          <Row tag="A · 18" title={<><em>Accordion</em></>} meta="single · multi" bodyColumn bodyStyle={{ maxWidth: 540 }}>
             <JxAccordion
               single
               value={singleAcc}
@@ -481,7 +481,7 @@ export function Specimen() {
             />
           </Row>
 
-          <Row tag="A · 18" title={<><em>Breadcrumbs</em> · Pagination</>} meta="navigation" bodyColumn>
+          <Row tag="A · 19" title={<><em>Breadcrumbs</em> · Pagination</>} meta="navigation" bodyColumn>
             <JxBreadcrumbs
               items={[
                 { label: 'Docs', href: '#' },
@@ -493,11 +493,11 @@ export function Specimen() {
             <JxPagination total={12} defaultPage={2} />
           </Row>
 
-          <Row tag="A · 19" title={<><em>Stepper</em></>} meta="progress · flow" bodyStyle={{ width: '100%', maxWidth: 680 }}>
+          <Row tag="A · 20" title={<><em>Stepper</em></>} meta="progress · flow" bodyStyle={{ width: '100%', maxWidth: 680 }}>
             <JxStepper current={2} steps={[{ label: 'Account' }, { label: 'Workspace' }, { label: 'Theme' }, { label: 'Done' }]} />
           </Row>
 
-          <Row tag="A · 20" title={<><em>Skeleton</em> · Spinner</>} meta="loading states" bodyStyle={{ gap: 28, alignItems: 'flex-start' }}>
+          <Row tag="A · 21" title={<><em>Skeleton</em> · Spinner</>} meta="loading states" bodyStyle={{ gap: 28, alignItems: 'flex-start' }}>
             <div style={{ width: 280, display: 'flex', gap: 12 }}>
               <JxSkeleton circle width={44} height={44} style={{ flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
@@ -517,7 +517,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 21" title={<><em>Toast</em></>} meta="click to fire ↗" bodyColumn>
+          <Row tag="A · 22" title={<><em>Toast</em></>} meta="click to fire ↗" bodyColumn>
             <div className="row" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {toastVariants.map((variant) => (
                 <JxButton
@@ -535,7 +535,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 22" title={<><em>Empty</em> state</>} meta="no-data fallback" bodyStyle={{ width: '100%', maxWidth: 480 }}>
+          <Row tag="A · 23" title={<><em>Empty</em> state</>} meta="no-data fallback" bodyStyle={{ width: '100%', maxWidth: 480 }}>
             <JxEmptyState
               title="No components match."
               message="Try fewer letters, or check the spelling."
@@ -543,7 +543,7 @@ export function Specimen() {
             />
           </Row>
 
-          <Row tag="A · 23" title={<><em>Calendar</em></>} meta="date picker">
+          <Row tag="A · 24" title={<><em>Calendar</em></>} meta="date picker">
             <JxCalendar
               defaultValue={new Date(2026, 4, 18)}
               rangeHover={{ from: new Date(2026, 4, 13), to: new Date(2026, 4, 17) }}
@@ -557,7 +557,7 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 27" title={<><em>Date</em> range</>} meta="from · to · hover">
+          <Row tag="A · 25" title={<><em>Date</em> range</>} meta="from · to · hover">
             <JxDateRangePicker defaultValue={{ from: new Date(2026, 4, 13), to: new Date(2026, 4, 17) }} />
             <div style={{ fontFamily: 'var(--jx-font-mono)', fontSize: 11, color: 'var(--jx-text-3)', marginLeft: 12, maxWidth: 200 }}>
               // click a day to start
@@ -568,13 +568,13 @@ export function Specimen() {
             </div>
           </Row>
 
-          <Row tag="A · 24" title={<><em>Divider</em></>} meta="labeled · plain" bodyColumn bodyStyle={{ maxWidth: 480 }}>
+          <Row tag="A · 26" title={<><em>Divider</em></>} meta="labeled · plain" bodyColumn bodyStyle={{ maxWidth: 480 }}>
             <JxDivider />
             <JxDivider label="section" />
             <JxDivider label="or continue with" />
           </Row>
 
-          <Row tag="A · 25" title={<><em>Snippet</em> · Snip</>} meta="inline · block · copy" bodyColumn>
+          <Row tag="A · 27" title={<><em>Snippet</em> · Snip</>} meta="inline · block · copy" bodyColumn>
             <div className="row" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <JxSnippet prompt="$" copyText="git clone https://github.com/loisakilla/Jinx-UI.git">git clone jinx-ui</JxSnippet>
               <JxSnippet prompt="›">npm install</JxSnippet>
