@@ -11,7 +11,7 @@ Live specimen: **https://jinx-ui.vercel.app**
 
 ## Not on npm
 
-The three packages are workspace-private and are consumed straight from this repository — as a clone, or as a git submodule. That is how [Context Lab](https://github.com/loisakilla/context-lab) uses them.
+The three packages are built and ready to publish, but they are not on npm yet, so they are consumed straight from this repository — as a clone, or as a git submodule. That is how [Context Lab](https://github.com/loisakilla/context-lab) uses them.
 
 ```bash
 git clone https://github.com/loisakilla/Jinx-UI.git

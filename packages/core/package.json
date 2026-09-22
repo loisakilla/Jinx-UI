@@ -1,16 +1,41 @@
 {
   "name": "@jinx-ui/core",
-  "private": true,
   "version": "0.1.0",
+  "description": "The jx-* CSS layer of Jinx UI: component styles, three style modes and the tokens they read.",
+  "keywords": [
+    "css",
+    "design-system",
+    "ui-kit",
+    "brutalist",
+    "themes",
+    "jinx-ui"
+  ],
   "license": "MIT",
+  "author": "Georgiy Kataev",
+  "homepage": "https://jinx-ui.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loisakilla/Jinx-UI.git",
+    "directory": "packages/core"
+  },
+  "bugs": "https://github.com/loisakilla/Jinx-UI/issues",
   "type": "module",
   "dependencies": {
-    "@jinx-ui/tokens": "0.1.0"
+    "@jinx-ui/tokens": "^0.1.0"
   },
   "style": "./src/index.css",
   "exports": {
     ".": "./src/index.css",
     "./app": "./src/jinx-app.css",
-    "./skins": "./src/jinx-skins.css"
+    "./skins": "./src/jinx-skins.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

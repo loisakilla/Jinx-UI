@@ -1,14 +1,49 @@
 {
   "name": "@jinx-ui/react",
-  "private": true,
   "version": "0.1.0",
+  "description": "React runtime for Jinx UI: 38 components and 3 hooks over the jx-* CSS contract, with three style modes.",
+  "keywords": [
+    "react",
+    "components",
+    "ui-kit",
+    "design-system",
+    "brutalist",
+    "framer-motion",
+    "accessible"
+  ],
   "license": "MIT",
+  "author": "Georgiy Kataev",
+  "homepage": "https://jinx-ui.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loisakilla/Jinx-UI.git",
+    "directory": "packages/react"
+  },
+  "bugs": "https://github.com/loisakilla/Jinx-UI/issues",
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./runtime": "./src/runtime.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "default": "./dist/runtime.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/esm-extensions.mjs",
+    "prepack": "npm run build",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "framer-motion": "^12.39.0"
@@ -16,5 +51,8 @@
   "peerDependencies": {
     "react": ">=19",
     "react-dom": ">=19"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

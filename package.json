@@ -9,11 +9,12 @@
   ],
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "verify": "npm run test && npm run typecheck && npm run build",
+    "verify": "npm run build:packages && npm run test && npm run typecheck && npm run build",
     "typecheck": "tsc --noEmit && tsc -p packages/react/tsconfig.json --noEmit",
     "test": "vitest run",
     "build": "npm run typecheck && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "build:packages": "npm run build -w @jinx-ui/react"
   },
   "dependencies": {
     "framer-motion": "^12.39.0",

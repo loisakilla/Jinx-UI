@@ -1,12 +1,36 @@
 {
   "name": "@jinx-ui/tokens",
-  "private": true,
   "version": "0.1.0",
+  "description": "CSS custom properties for Jinx UI: themes, style modes, radii, fonts and easing.",
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "theming",
+    "design-system",
+    "jinx-ui"
+  ],
   "license": "MIT",
+  "author": "Georgiy Kataev",
+  "homepage": "https://jinx-ui.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loisakilla/Jinx-UI.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": "https://github.com/loisakilla/Jinx-UI/issues",
   "type": "module",
   "style": "./src/index.css",
   "exports": {
     ".": "./src/index.css",
-    "./tailwind": "./src/tailwind.css"
+    "./tailwind": "./src/tailwind.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

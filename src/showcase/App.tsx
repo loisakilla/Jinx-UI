@@ -328,7 +328,7 @@ function Install() {
             Not on npm. <em>Clone</em> it, or take the CSS.
           </h2>
           <p>
-            The three packages are workspace-private and live in this repository. Consume them as a clone or as a git submodule; the CSS layer works on its own, without the React runtime.
+            The three packages are built and ready to publish, but they are not on npm yet. Consume them from this repository as a clone or a git submodule; the CSS layer works on its own, without the React runtime.
           </p>
         </div>
         <div style={{ display: 'grid', gap: 16, maxWidth: 640 }}>

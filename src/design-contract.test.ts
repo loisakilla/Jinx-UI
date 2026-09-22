@@ -25,8 +25,12 @@ const reactIndex = readProjectFile('packages/react/src/index.ts');
 const tokensPackageJson = readProjectFile('packages/tokens/package.json');
 const rootPackageJson = readProjectFile('package.json');
 const readme = readProjectFile('README.md');
+const reactPackageReadme = readProjectFile('packages/react/README.md');
 const docFiles = {
   'README.md': readme,
+  'packages/tokens/README.md': readProjectFile('packages/tokens/README.md'),
+  'packages/core/README.md': readProjectFile('packages/core/README.md'),
+  'packages/react/README.md': reactPackageReadme,
   'docs/testing.md': readProjectFile('docs/testing.md'),
   'docs/components.md': readProjectFile('docs/components.md'),
   'docs/design-contract.md': readProjectFile('docs/design-contract.md'),
@@ -116,10 +120,13 @@ describe('Jinx UI design contract', () => {
     expect(showcaseApp).toContain('{COMPONENT_COUNT}<small>components</small>');
     expect(showcaseApp).not.toMatch(/\d+ React components/);
 
-    const claimed = readme.match(/(\d+) components and (\d+) hooks/);
-    expect(claimed, 'README should state the component and hook count').toBeTruthy();
-    expect(Number(claimed?.[1])).toBe(components);
-    expect(Number(claimed?.[2])).toBe(hooks);
+    [readme, reactPackageReadme].forEach((text) => {
+      const claimed = text.match(/(\d+) components and (\d+) hooks/);
+      expect(claimed, 'the README should state the component and hook count').toBeTruthy();
+      expect(Number(claimed?.[1])).toBe(components);
+      expect(Number(claimed?.[2])).toBe(hooks);
+    });
+    expect(reactPackageReadme).not.toContain('core 8');
   });
 
   it('renders every exported component somewhere in the specimen', () => {
@@ -128,12 +135,34 @@ describe('Jinx UI design contract', () => {
     });
   });
 
-  it('does not promise an npm install while the packages are private', () => {
-    [corePackageJson, reactPackageJson, tokensPackageJson].forEach((manifest) => {
-      expect(JSON.parse(manifest).private, 'a published package would need this test rewritten').toBe(true);
+  it('keeps the three packages publishable', () => {
+    const manifests = {
+      tokens: JSON.parse(tokensPackageJson),
+      core: JSON.parse(corePackageJson),
+      react: JSON.parse(reactPackageJson),
+    };
+    Object.entries(manifests).forEach(([name, manifest]) => {
+      expect(manifest.private, `${name} must not be private once it is meant to ship`).toBeUndefined();
+      expect(manifest.license).toBe('MIT');
+      expect(manifest.description, `${name} needs a description for the npm page`).toBeTruthy();
+      expect(manifest.repository?.directory, `${name} needs repository.directory`).toBe(`packages/${name}`);
+      expect(manifest.publishConfig?.access, `${name} is scoped and needs public access`).toBe('public');
+      expect(manifest.files, `${name} needs a files allowlist`).toContain('LICENSE');
+      expect(existsSync(resolve(root, `packages/${name}/LICENSE`)), `packages/${name}/LICENSE is missing`).toBe(true);
     });
+
+    expect(manifests.react.files).toEqual(['dist', 'README.md', 'LICENSE']);
+    expect(manifests.react.exports['.'].types).toBe('./dist/index.d.ts');
+    expect(manifests.react.exports['./runtime'].default).toBe('./dist/runtime.js');
+    expect(manifests.react.scripts.prepare).toBe('npm run build');
+    expect(JSON.stringify(manifests.react.exports)).not.toContain('src/');
+  });
+
+  it('says the packages are not on npm yet, everywhere a visitor would look', () => {
     expect(showcaseApp).not.toMatch(/npm i(nstall)?\s+@jinx-ui/);
     expect(readme).not.toMatch(/npm i(nstall)?\s+@jinx-ui/);
+    expect(showcaseApp).toContain('Not on npm');
+    expect(readme).toContain('Not on npm');
     expect(readme).toContain('https://jinx-ui.vercel.app');
   });
 

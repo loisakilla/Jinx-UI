@@ -1,29 +1,39 @@
 # @jinx-ui/react
 
-React runtime primitives for core Jinx components.
+The React runtime for [Jinx UI](https://github.com/loisakilla/Jinx-UI): 38 components and 3 hooks over the `jx-*` CSS contract from `@jinx-ui/core`.
 
-## Next.js App Router
+Live specimen: https://jinx-ui.vercel.app
 
-Entry point includes `'use client'` so interactive primitives are client-safe.
+```tsx
+import '@jinx-ui/core';
+import { JxButton, JxModal } from '@jinx-ui/react';
 
-## Covered primitives (core 8)
-
-- Button
-- Input / Textarea
-- Select
-- Combobox
-- Tabs
-- Toast
-- Modal / Drawer
-- Accordion
+<JxButton variant="primary">Ship it</JxButton>;
+```
 
 ## State model
 
-Interactive components use explicit controlled/uncontrolled APIs (`value` + `onChange` + `defaultValue`).
+Every stateful primitive is controlled from outside through `value` + `onValueChange` (or `open` + `onOpenChange`), and falls back to the uncontrolled mode through `defaultValue` / `defaultOpen`. Both modes are implemented once, in `useControllableState`. No global store, no context provider.
 
-Tabs keyboard contract is part of the runtime baseline: `ArrowLeft` / `ArrowRight` / `Home` / `End` activate tabs, and only the active tab stays in tab order (`tabIndex=0`, others `-1`).
+## Next.js App Router
 
-## Export
+The package entry carries `'use client'`, so the components drop into a server-component tree without a wrapper. `@jinx-ui/react/runtime` is the same surface without the directive, for generic browser bundling.
 
-- `@jinx-ui/react` -> `src/index.ts`
-- `@jinx-ui/react/runtime` -> `src/runtime.ts` (no module directives, useful for generic browser bundling)
+## Keyboard and ARIA
+
+- Tabs: `ArrowLeft` / `ArrowRight` / `Home` / `End`; only the active tab stays in tab order.
+- Modal and Drawer: focus trap, `Escape` to close, focus returned to the opener, body scroll locked while open.
+- Select and Combobox: arrow navigation, type-ahead, `Escape` to close.
+
+## Exports
+
+| Entry | What it gives |
+| --- | --- |
+| `@jinx-ui/react` | All components and hooks, with `'use client'`. |
+| `@jinx-ui/react/runtime` | The same exports without the directive. |
+
+The CSS is a separate package: `@jinx-ui/core` brings tokens, component styles and the three skins in one import.
+
+## License
+
+MIT.
