@@ -1,7 +1,8 @@
-import type { CSSProperties, HTMLAttributes } from 'react';
+import type { CSSProperties, HTMLAttributes, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxSpinnerProps = HTMLAttributes<HTMLSpanElement> & {
+  ref?: Ref<HTMLSpanElement>;
   variant?: 'ring' | 'dots';
   size?: number;
 };

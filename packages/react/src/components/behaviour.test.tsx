@@ -2,8 +2,8 @@
 
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ReactElement } from 'react';
-import { useState } from 'react';
+import type { ReactElement, RefObject } from 'react';
+import { createRef, useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   JxAccordion,
@@ -17,6 +17,7 @@ import {
   JxChip,
   JxAlert,
   JxCombobox,
+  JxDateRangePicker,
   JxDivider,
   JxDrawer,
   JxEmptyState,
@@ -24,6 +25,8 @@ import {
   JxKbd,
   JxMenu,
   JxModal,
+  JxPagination,
+  JxPasswordField,
   JxProgress,
   JxProgressCircle,
   JxRadio,
@@ -538,5 +541,137 @@ describe('presentational components forward what a consumer passes', () => {
     expect(node, `${_name} dropped the attribute it was given`).toBeTruthy();
     expect(node?.className, `${_name} dropped the class it was given`).toContain('probe');
     expect(node?.className, `${_name} dropped its own jx- class`).toMatch(/\bjx-/);
+  });
+});
+
+describe('components hand their own element to a ref', () => {
+  function withRef<T extends HTMLElement>(renderWith: (ref: RefObject<T | null>) => ReactElement): () => HTMLElement | null {
+    return () => {
+      const ref = createRef<T>();
+      render(renderWith(ref));
+      return ref.current;
+    };
+  }
+
+  const cases: Array<[string, string, () => HTMLElement | null]> = [
+    ['JxButton', 'BUTTON', withRef<HTMLButtonElement>((ref) => <JxButton ref={ref}>Save</JxButton>)],
+    ['JxInputField', 'INPUT', withRef<HTMLInputElement>((ref) => <JxInputField ref={ref} label="Email" />)],
+    ['JxPasswordField', 'INPUT', withRef<HTMLInputElement>((ref) => <JxPasswordField ref={ref} label="Password" />)],
+    ['JxTextareaField', 'TEXTAREA', withRef<HTMLTextAreaElement>((ref) => <JxTextareaField ref={ref} label="Bio" />)],
+    ['JxCheckbox', 'INPUT', withRef<HTMLInputElement>((ref) => <JxCheckbox ref={ref} label="Remember me" />)],
+    ['JxRadio', 'INPUT', withRef<HTMLInputElement>((ref) => <JxRadio ref={ref} label="Monthly" />)],
+    ['JxSwitch', 'INPUT', withRef<HTMLInputElement>((ref) => <JxSwitch ref={ref} label="Notifications" />)],
+    ['JxSlider', 'INPUT', withRef<HTMLInputElement>((ref) => <JxSlider ref={ref} label="Scale" />)],
+    ['JxCombobox', 'INPUT', withRef<HTMLInputElement>((ref) => <JxCombobox ref={ref} options={[{ value: 'button', label: 'Button' }]} />)],
+    ['JxTagInput', 'INPUT', withRef<HTMLInputElement>((ref) => <JxTagInput ref={ref} ariaLabel="Tags" />)],
+    ['JxSelect', 'BUTTON', withRef<HTMLButtonElement>((ref) => <JxSelect ref={ref} options={[{ value: 'react', label: 'React' }]} />)],
+    ['JxAlert', 'DIV', withRef<HTMLDivElement>((ref) => <JxAlert ref={ref} title="Heads up" />)],
+    ['JxAvatar', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxAvatar ref={ref}>AB</JxAvatar>)],
+    ['JxAvatarStack', 'DIV', withRef<HTMLDivElement>((ref) => <JxAvatarStack ref={ref} />)],
+    ['JxBadge', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxBadge ref={ref}>New</JxBadge>)],
+    ['JxBreadcrumbs', 'NAV', withRef<HTMLElement>((ref) => <JxBreadcrumbs ref={ref} items={[{ label: 'Home' }]} />)],
+    ['JxCalendar', 'DIV', withRef<HTMLDivElement>((ref) => <JxCalendar ref={ref} />)],
+    ['JxDateRangePicker', 'DIV', withRef<HTMLDivElement>((ref) => <JxDateRangePicker ref={ref} />)],
+    ['JxChip', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxChip ref={ref}>tag</JxChip>)],
+    ['JxDivider', 'HR', withRef<HTMLElement>((ref) => <JxDivider ref={ref} />)],
+    ['JxDivider with a label', 'DIV', withRef<HTMLElement>((ref) => <JxDivider ref={ref} label="or" />)],
+    ['JxEmptyState', 'DIV', withRef<HTMLDivElement>((ref) => <JxEmptyState ref={ref} title="Nothing here" />)],
+    ['JxKbd', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxKbd ref={ref}>K</JxKbd>)],
+    ['JxMenu', 'DIV', withRef<HTMLDivElement>((ref) => <JxMenu ref={ref} items={[{ label: 'Rename' }]} />)],
+    ['JxPagination', 'NAV', withRef<HTMLElement>((ref) => <JxPagination ref={ref} total={3} />)],
+    ['JxProgress', 'DIV', withRef<HTMLDivElement>((ref) => <JxProgress ref={ref} value={40} />)],
+    ['JxProgressCircle', 'DIV', withRef<HTMLDivElement>((ref) => <JxProgressCircle ref={ref} value={40} />)],
+    ['JxSkeleton', 'DIV', withRef<HTMLDivElement>((ref) => <JxSkeleton ref={ref} />)],
+    ['JxSnippet', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxSnippet ref={ref}>npm install</JxSnippet>)],
+    ['JxSnip', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxSnip ref={ref}>code</JxSnip>)],
+    ['JxSpinner', 'SPAN', withRef<HTMLSpanElement>((ref) => <JxSpinner ref={ref} />)],
+    ['JxStepper', 'DIV', withRef<HTMLDivElement>((ref) => <JxStepper ref={ref} steps={[{ label: 'One' }]} current={0} />)],
+    [
+      'JxTable',
+      'TABLE',
+      withRef<HTMLTableElement>((ref) => (
+        <JxTable ref={ref}>
+          <tbody>
+            <tr>
+              <td>cell</td>
+            </tr>
+          </tbody>
+        </JxTable>
+      ))
+    ],
+    ['JxToggle', 'DIV', withRef<HTMLDivElement>((ref) => <JxToggle ref={ref} items={[{ value: 'a', label: 'A' }]} />)],
+    [
+      'JxTooltip',
+      'DIV',
+      withRef<HTMLDivElement>((ref) => (
+        <JxTooltip ref={ref} tip="Copy">
+          <span>icon</span>
+        </JxTooltip>
+      ))
+    ]
+  ];
+
+  it.each(cases)('%s points the ref at its %s', (_name, tag, renderCase) => {
+    const node = renderCase();
+    expect(node?.tagName).toBe(tag);
+    expect(node?.isConnected).toBe(true);
+  });
+
+  it('JxSlider keeps painting its track while a ref is attached', () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<JxSlider ref={ref} min={0} max={200} defaultValue={50} />);
+    expect(ref.current?.style.getPropertyValue('--_p')).toBe('25%');
+  });
+
+  it('JxCombobox still returns focus to its input after clearing', async () => {
+    const user = userEvent.setup();
+    const ref = createRef<HTMLInputElement>();
+    render(<JxCombobox ref={ref} options={[{ value: 'button', label: 'Button' }]} />);
+
+    await user.type(screen.getByRole('combobox'), 'bu');
+    await user.click(screen.getByRole('button', { name: 'Clear search' }));
+
+    expect(document.activeElement).toBe(ref.current);
+    expect(ref.current?.value).toBe('');
+  });
+
+  it('JxTagInput still focuses its input when the group is clicked', async () => {
+    const user = userEvent.setup();
+    const ref = createRef<HTMLInputElement>();
+    render(<JxTagInput ref={ref} ariaLabel="Tags" />);
+
+    await user.click(screen.getByRole('group', { name: 'Tags' }));
+
+    expect(document.activeElement).toBe(ref.current);
+  });
+
+  it('a callback ref gets its cleanup when the component goes away', () => {
+    const calls: string[] = [];
+    const { unmount } = render(
+      <JxSlider
+        ref={(node) => {
+          calls.push(node ? 'attach' : 'detach');
+          return () => {
+            calls.push('cleanup');
+          };
+        }}
+      />
+    );
+    unmount();
+    expect(calls).toEqual(['attach', 'cleanup']);
+  });
+
+  it('a callback ref without a cleanup is told when the node goes away', () => {
+    const calls: Array<string | null> = [];
+    const { unmount } = render(
+      <JxTagInput
+        ariaLabel="Tags"
+        ref={(node) => {
+          calls.push(node ? node.tagName : null);
+        }}
+      />
+    );
+    unmount();
+    expect(calls).toEqual(['INPUT', null]);
   });
 });

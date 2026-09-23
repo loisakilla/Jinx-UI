@@ -1,10 +1,11 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
 export type JxButtonSize = 'sm' | 'md' | 'lg';
 
 export type JxButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  ref?: Ref<HTMLButtonElement>;
   variant?: JxButtonVariant;
   size?: JxButtonSize;
   iconOnly?: boolean;

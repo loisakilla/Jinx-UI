@@ -1,8 +1,9 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import { useControllableState } from '../hooks/useControllableState';
 import { cn } from '../utils/cn';
 
 export type JxPaginationProps = Omit<HTMLAttributes<HTMLElement>, 'onChange'> & {
+  ref?: Ref<HTMLElement>;
   total: number;
   page?: number;
   defaultPage?: number;

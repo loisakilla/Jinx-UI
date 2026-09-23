@@ -1,4 +1,4 @@
-import type { HTMLAttributes, MouseEvent, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxMenuItem = {
@@ -12,6 +12,7 @@ export type JxMenuItem = {
 };
 
 export type JxMenuProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   items: JxMenuItem[];
 };
 

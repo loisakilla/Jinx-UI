@@ -1,7 +1,8 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxEmptyStateProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   icon?: ReactNode;
   title: ReactNode;
   message?: ReactNode;

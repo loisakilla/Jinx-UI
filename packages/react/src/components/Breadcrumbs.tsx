@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxBreadcrumbItem = {
@@ -8,6 +8,7 @@ export type JxBreadcrumbItem = {
 };
 
 export type JxBreadcrumbsProps = HTMLAttributes<HTMLElement> & {
+  ref?: Ref<HTMLElement>;
   items: JxBreadcrumbItem[];
   separator?: ReactNode;
 };

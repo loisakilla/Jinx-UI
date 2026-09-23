@@ -1,6 +1,7 @@
 import { useId, useMemo, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import { useControllableState } from '../hooks/useControllableState';
+import { useMergedRef } from '../hooks/useMergedRef';
 import { cn } from '../utils/cn';
 
 export type JxComboboxOption = {
@@ -11,6 +12,7 @@ export type JxComboboxOption = {
 };
 
 export type JxComboboxProps = {
+  ref?: Ref<HTMLInputElement>;
   options: JxComboboxOption[];
   value?: string;
   defaultValue?: string;
@@ -31,7 +33,8 @@ export function JxCombobox({
   emptyText = 'No matches. Try fewer letters.',
   className,
   ariaLabel,
-  clearLabel = 'Clear search'
+  clearLabel = 'Clear search',
+  ref
 }: JxComboboxProps) {
   const [selected, setSelected] = useControllableState(value, defaultValue ?? options[0]?.value ?? '', onValueChange);
   const [query, setQuery] = useState('');
@@ -39,6 +42,7 @@ export function JxCombobox({
   const listId = useId();
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const mergedInputRef = useMergedRef(ref, inputRef);
 
   const filtered = useMemo(() => {
     const normalized = query.toLowerCase().trim();
@@ -78,7 +82,7 @@ export function JxCombobox({
   return (
     <div className={cn('jx-combobox', className)}>
       <input
-        ref={inputRef}
+        ref={mergedInputRef}
         id={inputId}
         className="jx-combobox-input"
         placeholder={placeholder}

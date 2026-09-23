@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxSnippetTone = 'default' | 'info';
 
 export type JxSnippetProps = HTMLAttributes<HTMLSpanElement> & {
+  ref?: Ref<HTMLSpanElement>;
   prompt?: ReactNode;
   tone?: JxSnippetTone;
   block?: boolean;
@@ -59,6 +60,7 @@ export function JxSnippet({ prompt, tone = 'default', block = false, copyText, c
 }
 
 export type JxSnipProps = HTMLAttributes<HTMLSpanElement> & {
+  ref?: Ref<HTMLSpanElement>;
   children?: ReactNode;
 };
 

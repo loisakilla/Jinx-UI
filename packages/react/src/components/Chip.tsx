@@ -1,7 +1,8 @@
-import type { HTMLAttributes, MouseEvent, ReactNode } from 'react';
+import type { HTMLAttributes, MouseEvent, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxChipProps = HTMLAttributes<HTMLSpanElement> & {
+  ref?: Ref<HTMLSpanElement>;
   active?: boolean;
   removable?: boolean;
   onRemove?: () => void;

@@ -1,7 +1,8 @@
-import type { CSSProperties, HTMLAttributes } from 'react';
+import type { CSSProperties, HTMLAttributes, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxSkeletonProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   circle?: boolean;

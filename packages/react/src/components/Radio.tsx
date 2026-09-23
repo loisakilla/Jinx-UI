@@ -1,7 +1,8 @@
-import type { InputHTMLAttributes, ReactNode } from 'react';
+import type { InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxRadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> & {
+  ref?: Ref<HTMLInputElement>;
   label?: ReactNode;
   wrapClassName?: string;
 };

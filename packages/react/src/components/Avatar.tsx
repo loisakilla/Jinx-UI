@@ -1,10 +1,11 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxAvatarTone = 'default' | 'accent' | 'info';
 export type JxAvatarSize = 'sm' | 'md' | 'lg';
 
 export type JxAvatarProps = HTMLAttributes<HTMLSpanElement> & {
+  ref?: Ref<HTMLSpanElement>;
   tone?: JxAvatarTone;
   size?: JxAvatarSize;
   status?: boolean;
@@ -35,6 +36,7 @@ export function JxAvatar({ tone = 'default', size = 'md', status = false, classN
 }
 
 export type JxAvatarStackProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   children?: ReactNode;
 };
 

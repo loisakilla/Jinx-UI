@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, Ref } from 'react';
 import { motion } from 'framer-motion';
 import { useControllableState } from '../hooks/useControllableState';
 import { cn } from '../utils/cn';
 
 export type JxCalendarProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> & {
+  ref?: Ref<HTMLDivElement>;
   value?: Date | null;
   defaultValue?: Date | null;
   onValueChange?: (value: Date | null) => void;
@@ -16,6 +17,7 @@ export type JxCalendarProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 
 export type JxDateRange = { from: Date | null; to: Date | null };
 
 export type JxDateRangePickerProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> & {
+  ref?: Ref<HTMLDivElement>;
   value?: JxDateRange;
   defaultValue?: JxDateRange;
   onValueChange?: (value: JxDateRange) => void;

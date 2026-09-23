@@ -1,9 +1,10 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxAlertIntent = 'info' | 'success' | 'warning' | 'danger';
 
 export type JxAlertProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   intent?: JxAlertIntent;
   title: ReactNode;
   icon?: ReactNode;

@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import type { InputHTMLAttributes, Ref, TextareaHTMLAttributes } from 'react';
 import { cn } from '../utils/cn';
 
 type FieldBaseProps = {
@@ -11,6 +11,7 @@ type FieldBaseProps = {
 };
 
 export type JxInputFieldProps = FieldBaseProps & InputHTMLAttributes<HTMLInputElement> & {
+  ref?: Ref<HTMLInputElement>;
   prefix?: string;
 };
 
@@ -77,6 +78,7 @@ const eyeOffIcon = (
 
 export type JxPasswordFieldProps = FieldBaseProps &
   Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> & {
+    ref?: Ref<HTMLInputElement>;
     revealLabel?: string;
     hideLabel?: string;
   };
@@ -141,7 +143,10 @@ export function JxPasswordField({
   );
 }
 
-export type JxTextareaFieldProps = FieldBaseProps & TextareaHTMLAttributes<HTMLTextAreaElement>;
+export type JxTextareaFieldProps = FieldBaseProps &
+  TextareaHTMLAttributes<HTMLTextAreaElement> & {
+    ref?: Ref<HTMLTextAreaElement>;
+  };
 
 export function JxTextareaField({ label, helperText, errorText, required, className, id, ...props }: JxTextareaFieldProps) {
   const autoId = useId();

@@ -1,8 +1,9 @@
-import type { CSSProperties, HTMLAttributes } from 'react';
+import type { CSSProperties, HTMLAttributes, Ref } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '../utils/cn';
 
 export type JxProgressProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   value: number;
   max?: number;
   label?: string;
@@ -32,6 +33,7 @@ export function JxProgress({ value, max = 100, label, className, ...rest }: JxPr
 }
 
 export type JxProgressCircleProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   value: number;
   max?: number;
   showValue?: boolean;

@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import type { Ref } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useControllableState } from '../hooks/useControllableState';
 import { cn } from '../utils/cn';
@@ -12,6 +13,7 @@ export type JxSelectOption = {
 };
 
 export type JxSelectProps = {
+  ref?: Ref<HTMLButtonElement>;
   options: JxSelectOption[];
   value?: string;
   defaultValue?: string;
@@ -49,7 +51,8 @@ export function JxSelect({
   onValueChange,
   placeholder = 'Select',
   className,
-  label
+  label,
+  ref
 }: JxSelectProps) {
   const fallback = defaultValue ?? options[0]?.value ?? '';
   const [selectedValue, setSelectedValue] = useControllableState(value, fallback, onValueChange);
@@ -147,6 +150,7 @@ export function JxSelect({
       {label ? <label className="jx-label">{label}</label> : null}
       <div className="jx-select" data-select ref={rootRef}>
         <button
+          ref={ref}
           className="jx-select-trigger"
           type="button"
           aria-haspopup="listbox"

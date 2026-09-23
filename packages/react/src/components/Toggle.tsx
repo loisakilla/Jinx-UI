@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { motion } from 'framer-motion';
 import { useControllableState } from '../hooks/useControllableState';
 import { cn } from '../utils/cn';
@@ -10,6 +10,7 @@ export type JxToggleItem = {
 };
 
 export type JxToggleProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> & {
+  ref?: Ref<HTMLDivElement>;
   items: JxToggleItem[];
   value?: string;
   defaultValue?: string;

@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import type { KeyboardEvent, Ref } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useControllableState } from '../hooks/useControllableState';
+import { useMergedRef } from '../hooks/useMergedRef';
 import { cn } from '../utils/cn';
 
 export type JxTagInputProps = {
+  ref?: Ref<HTMLInputElement>;
   value?: string[];
   defaultValue?: string[];
   onValueChange?: (value: string[]) => void;
@@ -19,11 +21,13 @@ export function JxTagInput({
   onValueChange,
   placeholder = 'Add tag…',
   className,
-  ariaLabel
+  ariaLabel,
+  ref
 }: JxTagInputProps) {
   const [tags, setTags] = useControllableState<string[]>(value, defaultValue ?? [], onValueChange);
   const [draft, setDraft] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const mergedInputRef = useMergedRef(ref, inputRef);
 
   const commit = (raw: string) => {
     const next = raw.trim();
@@ -83,7 +87,7 @@ export function JxTagInput({
         ))}
       </AnimatePresence>
       <input
-        ref={inputRef}
+        ref={mergedInputRef}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
         onKeyDown={onKeyDown}

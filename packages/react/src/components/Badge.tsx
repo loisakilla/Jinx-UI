@@ -1,9 +1,10 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxBadgeTone = 'default' | 'accent' | 'info' | 'success' | 'warning' | 'danger' | 'solid';
 
 export type JxBadgeProps = HTMLAttributes<HTMLSpanElement> & {
+  ref?: Ref<HTMLSpanElement>;
   tone?: JxBadgeTone;
   dot?: boolean;
   children?: ReactNode;

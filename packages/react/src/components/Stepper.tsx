@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode, Ref } from 'react';
 import { cn } from '../utils/cn';
 
 export type JxStep = {
@@ -6,6 +6,7 @@ export type JxStep = {
 };
 
 export type JxStepperProps = HTMLAttributes<HTMLDivElement> & {
+  ref?: Ref<HTMLDivElement>;
   steps: JxStep[];
   current: number;
 };

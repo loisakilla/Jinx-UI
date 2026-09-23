@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
-import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
+import type { CSSProperties, InputHTMLAttributes, ReactNode, Ref } from 'react';
 import { useControllableState } from '../hooks/useControllableState';
+import { useMergedRef } from '../hooks/useMergedRef';
 import { cn } from '../utils/cn';
 
 export type JxSliderProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'defaultValue' | 'onChange'> & {
+  ref?: Ref<HTMLInputElement>;
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
@@ -24,10 +26,12 @@ export function JxSlider({
   showOutput = true,
   className,
   style,
+  ref,
   ...rest
 }: JxSliderProps) {
   const [internal, setInternal] = useControllableState<number>(value, defaultValue ?? Number(min), onValueChange);
   const sliderRef = useRef<HTMLInputElement>(null);
+  const inputRef = useMergedRef(ref, sliderRef);
 
   const minNum = Number(min);
   const maxNum = Number(max);
@@ -71,7 +75,7 @@ export function JxSlider({
         </div>
       ) : null}
       <input
-        ref={sliderRef}
+        ref={inputRef}
         type="range"
         className="jx-slider"
         min={min}
