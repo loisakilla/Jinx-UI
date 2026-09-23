@@ -23,6 +23,10 @@ Every stateful primitive is controlled from outside through `value` + `onValueCh
 
 The package entry carries `'use client'`, so the components drop into a server-component tree without a wrapper. `@jinx-ui/react/runtime` is the same surface without the directive, for generic browser bundling.
 
+## Refs
+
+A component that renders a DOM element accepts `ref` and hands it that element: `JxButton` gives its `<button>`, the fields give their `<input>` or `<textarea>`, `JxSelect` gives its trigger button, `JxSlider`, `JxCombobox` and `JxTagInput` give their input. React 19 passes `ref` as a regular prop, so there is no `forwardRef` to wrap. Overlays and composites — `JxModal`, `JxDrawer`, `JxTabs`, `JxAccordion`, the toasts — take no `ref`; the modal and the drawer already return focus to the element that opened them.
+
 ## Keyboard and ARIA
 
 - Tabs: `ArrowLeft` / `ArrowRight` / `Home` / `End`; only the active tab stays in tab order.

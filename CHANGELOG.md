@@ -1,8 +1,14 @@
 # Changelog
 
-## 0.1.0 — unreleased
+## 0.1.1 — 2026-09-23
 
-First version prepared for npm. The packages are not published yet; everything below is what a first publish would carry.
+`@jinx-ui/react` only; `@jinx-ui/core` and `@jinx-ui/tokens` stay at 0.1.0.
+
+- Components that render a DOM element accept `ref` and hand it that element. At runtime React 19 already passed `ref` through, because these components spread their props onto their element, but the types did not declare it, so `<JxButton ref={…}>` failed to compile. An agent in Context Lab hit exactly this while returning focus after closing a dialog. `JxSelect` hands over its trigger button; `JxSlider`, `JxCombobox` and `JxTagInput` merge the given `ref` with the one they use themselves, so their own focus and track painting keep working. Overlays and composites take no `ref`.
+
+## 0.1.0 — 2026-09-22
+
+First version on npm.
 
 ### Packages
 
